@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Notes
 {
-    class CNote : INote
+    class DNote : INote
     {
-        public CNote()
+        public DNote()
         {
 
         }
 
         public override string getKey()
         {
-            return "C";
+            return "D";
         }
 
         public override object Clone()
         {
-            return new CNote();
+            return new DNote();
         }
 
         public override void show()

@@ -86,6 +86,13 @@
     <Compile Include="MidiPlayer.cs" />
     <Compile Include="MidiReader.cs" />
     <Compile Include="FactoryMethod.cs" />
+    <Compile Include="Notes\ANote.cs" />
+    <Compile Include="Notes\BNote.cs" />
+    <Compile Include="Notes\RestNote.cs" />
+    <Compile Include="Notes\GNote.cs" />
+    <Compile Include="Notes\FNote.cs" />
+    <Compile Include="Notes\ENote.cs" />
+    <Compile Include="Notes\DNote.cs" />
     <Compile Include="Notes\CNote.cs" />
     <Compile Include="Notes\INote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

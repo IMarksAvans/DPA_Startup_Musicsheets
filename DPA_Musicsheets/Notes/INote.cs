@@ -10,6 +10,12 @@ namespace DPA_Musicsheets.Notes
     public abstract class INote : ICloneable, IGetKey<String>
     {
 
+        protected int _duration;
+        protected string _maatsoort;
+        protected bool _muted;
+        protected bool _punt;
+        protected string _hogerlager;
+
         public INote()
         {
         }
@@ -24,5 +30,15 @@ namespace DPA_Musicsheets.Notes
         public abstract object Clone();
 
         public abstract void show();
+
+        public abstract int GetDuration();
+
+        public abstract string GetMaatsoort();
+
+        public abstract bool IsMuted();
+
+        public abstract bool IsPunt();
+
+        public abstract string HogerLager();
     }
 }

@@ -95,6 +95,7 @@
     <Compile Include="Notes\DNote.cs" />
     <Compile Include="Notes\CNote.cs" />
     <Compile Include="Notes\INote.cs" />
+    <Compile Include="OurTrack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

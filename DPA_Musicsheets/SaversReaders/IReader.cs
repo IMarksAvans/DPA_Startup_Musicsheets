@@ -8,6 +8,10 @@ namespace DPA_Musicsheets
 {
     interface IReader
     {
+        List<OurTrack> GetTracks();
+
+        void SetFilename(string Filename);
+
         int Load();
     }
 }

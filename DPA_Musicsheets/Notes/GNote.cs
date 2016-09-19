@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Notes
 {
-    class GNote : INote
+    class GNote : AbstractNote
     {
         public GNote()
         {
@@ -21,36 +21,6 @@ namespace DPA_Musicsheets.Notes
         public override object Clone()
         {
             return new GNote();
-        }
-
-        public override void show()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override int GetDuration()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override string GetMaatsoort()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool IsMuted()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool IsPunt()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override string HogerLager()
-        {
-            throw new NotImplementedException();
         }
     }
 }

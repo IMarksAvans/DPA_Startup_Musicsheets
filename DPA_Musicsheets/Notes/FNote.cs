@@ -22,35 +22,5 @@ namespace DPA_Musicsheets.Notes
         {
             return new FNote();
         }
-
-        public override void show()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override int GetDuration()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override string GetMaatsoort()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool IsMuted()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool IsPunt()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override string HogerLager()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

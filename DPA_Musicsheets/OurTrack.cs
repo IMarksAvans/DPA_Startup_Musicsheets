@@ -8,7 +8,7 @@ namespace DPA_Musicsheets
 {
     class OurTrack
     {
-        protected List<Notes.INote> _notes;
+        protected List<Notes.AbstractNote> _notes;
 
         OurTrack()
         {

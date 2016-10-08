@@ -23,32 +23,32 @@ namespace DPA_Musicsheets.Notes
             return new RestNote();
         }
 
-        public override void show()
+        public void show()
         {
             throw new NotImplementedException();
         }
 
-        public override int GetDuration()
+        public int GetDuration()
         {
             throw new NotImplementedException();
         }
 
-        public override string GetMaatsoort()
+        public string GetMaatsoort()
         {
             throw new NotImplementedException();
         }
 
-        public override bool IsMuted()
+        public bool IsMuted()
         {
             throw new NotImplementedException();
         }
 
-        public override bool IsPunt()
+        public bool IsPunt()
         {
             throw new NotImplementedException();
         }
 
-        public override string HogerLager()
+        public string HogerLager()
         {
             throw new NotImplementedException();
         }

@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DPA_Musicsheets
+namespace DPA_Musicsheets.ReservedWords
 {
-    interface IReader
+    interface IExpression
     {
-        void LoadReserved();
-
-        int Load(string Filename);
+        bool interpret(string context);
     }
 }

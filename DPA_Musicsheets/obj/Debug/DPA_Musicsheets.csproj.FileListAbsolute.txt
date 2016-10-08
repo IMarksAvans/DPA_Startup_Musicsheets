@@ -55,3 +55,5 @@ C:\Users\Sam\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\
 C:\Users\Sam\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets.csproj.GenerateResource.Cache
 C:\Users\Sam\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets.exe
 C:\Users\Sam\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets.pdb
+C:\Users\Sam\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\NAudio.dll
+C:\Users\Sam\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\NAudio.xml

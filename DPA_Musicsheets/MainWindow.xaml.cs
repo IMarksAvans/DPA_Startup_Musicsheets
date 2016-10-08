@@ -40,6 +40,9 @@ namespace DPA_Musicsheets
             InitializeComponent();
             DataContext = MidiTracks;
             FillPSAMViewer();
+
+            IReader r = new SaversReaders.MidiReader();
+            r.Load("Alle-eendjes-zwemmen-in-het-water.mid");
             //notenbalk.LoadFromXmlFile("Resources/example.xml");
         }
 

@@ -1,37 +1,79 @@
-﻿using System;
+﻿using Sanford.Multimedia.Midi;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.SaversReaders
 {
-    class MidiReader : IReader
+    public class MidiReader : IReader
     {
-        protected string _fileName;
-        protected List<OurTrack> _tracks;
+        
 
-        MidiReader()
+        //DPA_Musicsheets.MidiReader reader;
+
+        public MidiReader()
         {
-            _tracks = new List<OurTrack>();
-            _fileName = "";
+            
+
+            Tracks = new List<OurTrack>();
+            //_tracks = new List<OurTrack>();
+            Filename = "";
         }
 
-        public List<OurTrack> GetTracks()
+        public int Load(string Filename)
         {
-            return _tracks;
-        }
 
-        public int Load()
-        {
+            var sequence = new Sequence();
+            sequence.Load(Filename);
+
+            if (sequence.Count == 0)
+                return 0;
+
+            for (int i = 0; i < sequence.Count; i++)
+            {
+                var t = sequence.ElementAt(i);
+
+                OurTrack track = new OurTrack();
+
+                foreach (var mevent in t.Iterator())
+                {
+                    switch (mevent.MidiMessage.MessageType)
+                    {
+                        case MessageType.Channel:
+                            var channelMessage = mevent.MidiMessage as ChannelMessage;
+                            // Data1: De keycode. 0 = laagste C, 1 = laagste C#, 2 = laagste D etc.
+                            // 160 is centrale C op piano.
+                            //trackLog.Messages.Add(String.Format("Keycode: {0}, Command: {1}, absolute time: {2}, delta time: {3}"
+                            //  , channelMessage.Data1, channelMessage.Command, midiEvent.AbsoluteTicks, midiEvent.DeltaTicks));
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+
             return 1;
             //throw new NotImplementedException();
         }
 
-        public void SetFilename(string Filename)
+        public void LoadReserved()
         {
-            _fileName = Filename;
-            //throw new NotImplementedException();
+            throw new NotImplementedException();
+        }
+
+        public string Filename
+        {
+            get;
+            set;
+        }
+        public List<OurTrack> Tracks
+        {
+            get;
+            set;
         }
     }
 }

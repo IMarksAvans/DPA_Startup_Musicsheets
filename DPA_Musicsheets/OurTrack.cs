@@ -6,14 +6,19 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets
 {
-    class OurTrack
+    public class OurTrack
     {
         protected List<Notes.AbstractNote> _notes;
 
-        OurTrack()
+        public OurTrack()
         {
 
         }
-        
+
+        public int BPM
+        {
+            get;
+            set;    
+        }
     }
 }

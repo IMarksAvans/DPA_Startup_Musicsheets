@@ -25,7 +25,7 @@ namespace DPA_Musicsheets.SaversReaders
 
         public int Load(string Filename)
         {
-
+            this.Filename = Filename;
             var sequence = new Sequence();
             sequence.Load(Filename);
 
@@ -37,6 +37,8 @@ namespace DPA_Musicsheets.SaversReaders
                 var t = sequence.ElementAt(i);
 
                 OurTrack track = new OurTrack();
+                Tracks.Add(track);
+                track.Notes = new List<Notes.AbstractNote>();
 
                 foreach (var mevent in t.Iterator())
                 {
@@ -44,10 +46,9 @@ namespace DPA_Musicsheets.SaversReaders
                     {
                         case MessageType.Channel:
                             var channelMessage = mevent.MidiMessage as ChannelMessage;
-                            // Data1: De keycode. 0 = laagste C, 1 = laagste C#, 2 = laagste D etc.
-                            // 160 is centrale C op piano.
-                            //trackLog.Messages.Add(String.Format("Keycode: {0}, Command: {1}, absolute time: {2}, delta time: {3}"
-                            //  , channelMessage.Data1, channelMessage.Command, midiEvent.AbsoluteTicks, midiEvent.DeltaTicks));
+                            var note = CreateNote(channelMessage.Data1, channelMessage.Command, mevent.AbsoluteTicks, mevent.DeltaTicks);
+                            if (note != null)
+                                track.Notes.Add(note);
                             break;
                         default:
                             break;
@@ -62,7 +63,79 @@ namespace DPA_Musicsheets.SaversReaders
 
         public void LoadReserved()
         {
-            throw new NotImplementedException();
+        }
+
+        protected Notes.AbstractNote CreateNote(int data1, ChannelCommand command, int absoluteTicks, int deltaTicks)
+        {
+            Notes.AbstractNote Note = null;
+
+            if (data1 % 12 == 0)
+            {
+                Note = Notes.AbstractNote.create("C");//new Notes.CNote();
+            }
+            else if ((data1 - 1) % 12 == 0)
+            {
+                Note = Notes.AbstractNote.create("C");
+                Note.IsSharp = true;
+                // C#
+            }
+            else if ((data1 - 2) % 12 == 0)
+            {
+                Note = Notes.AbstractNote.create("D");
+            }
+            else if ((data1 - 3) % 12 == 0)
+            {
+                Note = Notes.AbstractNote.create("D");
+                Note.IsSharp = true;
+                //D#
+            }
+            else if ((data1 - 4) % 12 == 0)
+            {
+                Note = Notes.AbstractNote.create("E");
+            }
+            // Er is geen E#
+            else if ((data1 - 5) % 12 == 0)
+            {
+                Note = Notes.AbstractNote.create("F");
+            }
+            else if ((data1 - 6) % 12 == 0)
+            {
+                Note = Notes.AbstractNote.create("F");
+                Note.IsSharp = true;
+                // F#
+            }
+            else if ((data1 - 7) % 12 == 0)
+            {
+                Note = Notes.AbstractNote.create("G");
+            }
+            else if ((data1 - 8) % 12 == 0)
+            {
+                Note = Notes.AbstractNote.create("G");
+                Note.IsSharp = true;
+                // G#
+            }
+            else if ((data1 - 9) % 12 == 0)
+            {
+                Note = Notes.AbstractNote.create("A");
+            }
+            else if ((data1 - 10) % 12 == 0)
+            {
+                Note = Notes.AbstractNote.create("A");
+                Note.IsSharp = true;
+                //A#
+            }
+            else if ((data1 - 11) % 12 == 0)
+            {
+                Note = Notes.AbstractNote.create("B");
+            }
+
+            if (Note != null)
+            {
+                Note.Duration = deltaTicks;
+                Note.TicksPosition = absoluteTicks;
+                Note.NotePos = data1;
+            }
+            return Note;
         }
 
         public string Filename

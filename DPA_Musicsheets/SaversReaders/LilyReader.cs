@@ -1,5 +1,5 @@
 ﻿using DPA_Musicsheets;
-using Factory;
+using DPA_Musicsheets.Notes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -68,12 +68,32 @@ namespace DPA_Musicsheets.SaversReaders
 
         private void readNoteLine(string line)
         {
-            foreach (char c in line)
+            for(int i = 0; i < line.Length; i++)
             {
+                Char c = line[i];
                 if (Char.IsLetter(c))
                 {
-                    FactoryMethod<"test", Note> fcn = new FactoryMethod();
-                    Note n = DPA_Musicsheets.FactoryMethod.create(c.ToString());
+                    Note n = Note.create(c.ToString());
+                    while(line[++i].Equals(' '))
+                    {
+                        c = line[i];
+                        if (Char.IsNumber(c))
+                        {
+                            n.Duration = Int32.Parse(c.ToString());
+                        }
+                        else
+                        {
+                            if (c.Equals("'"))
+                            {
+                                n.IncreaseOctave();
+                            }
+                            else if (c.Equals("."))
+                            {
+                                n.DecreaseOctave();
+                            }
+                        }
+                    }
+                    // add the note to something.
                 }
             }
             // r    = rest

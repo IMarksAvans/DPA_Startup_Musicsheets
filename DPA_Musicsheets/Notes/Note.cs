@@ -14,7 +14,25 @@ namespace DPA_Musicsheets.Notes
         //protected string _maatsoort; // * Maatsoort is not related to a note but to a track.
         protected bool _muted;
         protected bool _punt;
-        protected string _hogerlager; // * Not sure what this should intents to do.
+        //protected string _hogerlager; // * Not sure what this should intents to do.
+
+        public bool IsSharp
+        {
+            get;
+            set;
+        }
+
+        public int TicksPosition
+        {
+            get;
+            set;
+        }
+
+        public int NotePos
+        {
+            get;
+            set;
+        }
 
         public Note()
         {

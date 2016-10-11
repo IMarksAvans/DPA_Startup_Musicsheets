@@ -26,6 +26,7 @@ namespace DPA_Musicsheets.SaversReaders
             System.Console.WriteLine("Contents of " + Filename + " = ");
             Debug.Print("something whon");
             Debug.WriteLine(Filename);
+            
             foreach (string line in lines)
             {
                 if (line.Contains("}"))
@@ -87,11 +88,17 @@ namespace DPA_Musicsheets.SaversReaders
                             {
                                 n.IncreaseOctave();
                             }
-                            else if (c.Equals("."))
+                            else if (c.Equals(","))
                             {
                                 n.DecreaseOctave();
                             }
+                            else if (c.Equals("."))
+                            {
+                                n.Punt = true;
+                            }
                         }
+                        // . == x1,5
+                        // ~ == door tot in de volgende maat
                     }
                     // add the note to something.
                 }

@@ -12,8 +12,8 @@ namespace DPA_Musicsheets.Notes
         public int Duration { get; set; }
         public int Octave { get; internal set;} = 5;
         //protected string _maatsoort; // * Maatsoort is not related to a note but to a track.
-        protected bool _muted;
-        protected bool _punt;
+        public bool Muted { get; set; } = false;
+        public bool Punt { get; set; } = false;
         //protected string _hogerlager; // * Not sure what this should intents to do.
 
         public bool IsSharp
@@ -46,21 +46,6 @@ namespace DPA_Musicsheets.Notes
         public abstract String getKey();
 
         public abstract object Clone();
-
-        public bool IsMuted()
-        {
-            return false;
-        }
-
-        public bool IsPunt()
-        {
-            return false;
-        }
-
-        public void getOctave()
-        {
-
-        }
 
         public void DecreaseOctave()
         {

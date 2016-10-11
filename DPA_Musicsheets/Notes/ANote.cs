@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Notes
 {
-    class ANote : AbstractNote
+    class ANote : Note
     {
         public ANote()
         {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Factory
+namespace DPA_Musicsheets
 {
     class FactoryMethod<TKey, TObject> where TObject : ICloneable, IGetKey<TKey>
     {

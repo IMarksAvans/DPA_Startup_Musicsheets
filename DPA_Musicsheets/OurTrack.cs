@@ -20,5 +20,17 @@ namespace DPA_Musicsheets
             get;
             set;    
         }
+
+        public string Time
+        {
+            get;
+            set;
+        }
+
+        public string Tempo
+        {
+            get;
+            set;
+        }
     }
 }

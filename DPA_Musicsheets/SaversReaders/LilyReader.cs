@@ -26,14 +26,17 @@ namespace DPA_Musicsheets.SaversReaders
             System.Console.WriteLine("Contents of " + Filename + " = ");
             Debug.Print("something whon");
             Debug.WriteLine(Filename);
-            
+
             foreach (string line in lines)
             {
+                OurTrack track = new OurTrack();
+                track.Notes = new List<Note>();
+
                 if (line.Contains("}"))
                 {
-                    throw new Exception("Document is not right threated");
+                    //throw new Exception("Document is not right threated");
                 }
-                else if (line.Contains("relative") || line.CompareTo("") == 1)
+                else if (line.Contains("relative") || String.IsNullOrEmpty(line))
                 {
                     continue;
                 }
@@ -54,28 +57,33 @@ namespace DPA_Musicsheets.SaversReaders
                     // get stack up to and including the alternative
                     // convert
                 }
-                else if (line.Contains("|"))
-                {
-                    readNoteLine(line);
-                }
                 else if (line.Contains("{"))
                 {
                     //something something dark
                 }
+                else //(line.Contains('|')
+                {
+                    track.Notes.AddRange(readNoteLine(line));
+                }
+
+                Tracks.Add(track);
             }
 
             return 1;
         }
 
-        private void readNoteLine(string line)
+        private List<Note> readNoteLine(string line)
         {
+            List<Note> noteList = new List<Note>(1000);
+
             for(int i = 0; i < line.Length; i++)
             {
                 Char c = line[i];
-                if (Char.IsLetter(c))
+                if (char.IsLetter(c))
                 {
                     Note n = Note.create(c.ToString());
-                    while(line[++i].Equals(' '))
+                    i++;
+                    while(i < line.Length && !char.IsWhiteSpace(line[i]))
                     {
                         c = line[i];
                         if (Char.IsNumber(c))
@@ -84,22 +92,24 @@ namespace DPA_Musicsheets.SaversReaders
                         }
                         else
                         {
-                            if (c.Equals("'"))
+                            if (c.Equals('\''))
                             {
                                 n.IncreaseOctave();
                             }
-                            else if (c.Equals(","))
+                            else if (c.Equals(','))
                             {
                                 n.DecreaseOctave();
                             }
-                            else if (c.Equals("."))
+                            else if (c.Equals('.'))
                             {
                                 n.Punt = true;
                             }
                         }
-                        // . == x1,5
+
+                        i++;
                         // ~ == door tot in de volgende maat
                     }
+                    noteList.Add(n);
                     // add the note to something.
                 }
             }
@@ -111,6 +121,8 @@ namespace DPA_Musicsheets.SaversReaders
             // .    = decrease note height
             // es   = mol
             // is   = kruis
+
+            return noteList;
         }
 
         private void readRepeat()

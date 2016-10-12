@@ -71,62 +71,62 @@ namespace DPA_Musicsheets.SaversReaders
 
             if (data1 % 12 == 0)
             {
-                Note = Notes.Note.create("C");//new Notes.CNote();
+                Note = Notes.Note.create("c");//new Notes.CNote();
             }
             else if ((data1 - 1) % 12 == 0)
             {
-                Note = Notes.Note.create("C");
+                Note = Notes.Note.create("c");
                 Note.IsSharp = true;
                 // C#
             }
             else if ((data1 - 2) % 12 == 0)
             {
-                Note = Notes.Note.create("D");
+                Note = Notes.Note.create("d");
             }
             else if ((data1 - 3) % 12 == 0)
             {
-                Note = Notes.Note.create("D");
+                Note = Notes.Note.create("d");
                 Note.IsSharp = true;
                 //D#
             }
             else if ((data1 - 4) % 12 == 0)
             {
-                Note = Notes.Note.create("E");
+                Note = Notes.Note.create("e");
             }
             // Er is geen E#
             else if ((data1 - 5) % 12 == 0)
             {
-                Note = Notes.Note.create("F");
+                Note = Notes.Note.create("f");
             }
             else if ((data1 - 6) % 12 == 0)
             {
-                Note = Notes.Note.create("F");
+                Note = Notes.Note.create("f");
                 Note.IsSharp = true;
                 // F#
             }
             else if ((data1 - 7) % 12 == 0)
             {
-                Note = Notes.Note.create("G");
+                Note = Notes.Note.create("g");
             }
             else if ((data1 - 8) % 12 == 0)
             {
-                Note = Notes.Note.create("G");
+                Note = Notes.Note.create("g");
                 Note.IsSharp = true;
                 // G#
             }
             else if ((data1 - 9) % 12 == 0)
             {
-                Note = Notes.Note.create("A");
+                Note = Notes.Note.create("a");
             }
             else if ((data1 - 10) % 12 == 0)
             {
-                Note = Notes.Note.create("A");
+                Note = Notes.Note.create("a");
                 Note.IsSharp = true;
                 //A#
             }
             else if ((data1 - 11) % 12 == 0)
             {
-                Note = Notes.Note.create("B");
+                Note = Notes.Note.create("b");
             }
 
             if (Note != null)

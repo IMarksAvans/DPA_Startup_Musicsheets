@@ -118,6 +118,8 @@ namespace DPA_Musicsheets
         {
             if (txt_MidiFilePath.Text.EndsWith(".ly"))
             {
+                SaversReaders.LilyReader lr = new SaversReaders.LilyReader();
+                lr.Load(txt_MidiFilePath.Text);
                 ShowMidiTracks(LilyReader.ReadLilypond(txt_MidiFilePath.Text));
             }
             else

@@ -15,7 +15,7 @@ namespace DPA_Musicsheets.Notes
 
         public override string getKey()
         {
-            return "B";
+            return "b";
         }
 
         public override object Clone()

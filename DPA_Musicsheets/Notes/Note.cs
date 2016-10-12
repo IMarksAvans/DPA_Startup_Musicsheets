@@ -20,19 +20,19 @@ namespace DPA_Musicsheets.Notes
         {
             get;
             set;
-        }
+        } = false;
 
         public int TicksPosition
         {
             get;
             set;
-        }
+        } = 0;
 
         public int NotePos
         {
             get;
             set;
-        }
+        } = 0;
 
         public Note()
         {

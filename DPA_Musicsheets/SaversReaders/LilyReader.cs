@@ -144,14 +144,21 @@ namespace DPA_Musicsheets.SaversReaders
                 altList.Add(readNoteLine(line));
             }
 
-            while (repeatCount > 0)
+            int currentAlt = 0;
+
+            for (int currentRepeat = 0; currentRepeat < repeatCount; currentRepeat++) 
             {
                 List<Note> toAdd = repeatList.ToList(); // Clone the list, to destroy the reference
                 
-                if (altList.Count() != 0)
+                if (altList.Count() > 0)
                 {
-                    // logic to add the right alt
+                    toAdd.AddRange(altList[currentAlt]);
+                    if (currentRepeat >= repeatCount - altList.Count())
+                    { 
+                        currentAlt++;
+                    }
                 }
+               
 
                 noteList.AddRange(toAdd);
 

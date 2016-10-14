@@ -19,7 +19,7 @@ namespace DPA_Musicsheets.SaversReaders
             Filename = "";
         }
 
-        public int Load(string Filename)
+        public List<OurTrack> Load(string Filename)
         {
             string[] lines = System.IO.File.ReadAllLines(@"" + Filename);
 
@@ -85,7 +85,7 @@ namespace DPA_Musicsheets.SaversReaders
                 Tracks.Add(track);
             }
 
-            return 1;
+            return Tracks;
         }
 
         private List<Note> readNoteLine(string line)
@@ -172,7 +172,7 @@ namespace DPA_Musicsheets.SaversReaders
         {
             throw new NotImplementedException();
         }
-    
+
         public string Filename
         {
             get;

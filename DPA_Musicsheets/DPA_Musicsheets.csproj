@@ -72,6 +72,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Interpreter\Expression.cs" />
+    <Compile Include="Interpreter\TerminalExpression.cs" />
     <Compile Include="LilyReader.cs" />
     <Compile Include="Notes\Note.cs" />
     <Compile Include="SaversReaders\IReader.cs" />

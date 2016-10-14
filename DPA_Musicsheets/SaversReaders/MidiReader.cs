@@ -23,14 +23,14 @@ namespace DPA_Musicsheets.SaversReaders
             Filename = "";
         }
 
-        public int Load(string Filename)
+        public List<OurTrack> Load(string Filename)
         {
             this.Filename = Filename;
             var sequence = new Sequence();
             sequence.Load(Filename);
 
             if (sequence.Count == 0)
-                return 0;
+                return null;
 
             for (int i = 0; i < sequence.Count; i++)
             {
@@ -57,7 +57,7 @@ namespace DPA_Musicsheets.SaversReaders
             }
 
 
-            return 1;
+            return Tracks;
             //throw new NotImplementedException();
         }
 

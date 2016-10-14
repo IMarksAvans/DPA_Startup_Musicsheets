@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using DPA_Musicsheets.Notes;
 
 namespace DPA_Musicsheets.SaversReaders
 {
@@ -13,8 +14,9 @@ namespace DPA_Musicsheets.SaversReaders
 
         protected string filename = "";
 
-        public int Save()
+        public int Save(string filename)
         {
+            this.filename = filename;
             if (filename == "")
                 return 0;
 
@@ -22,7 +24,14 @@ namespace DPA_Musicsheets.SaversReaders
 
             foreach (OurTrack t in tracks)
             {
+                if (t.Notes.Count == 0)
+                    continue;
                 string line = "";
+                foreach (Notes.Note n in t.Notes)
+                {
+                    line += TextFromNote(n);
+                    line += " ";
+                }
 
                 Lines.Add(line);
             }
@@ -30,6 +39,26 @@ namespace DPA_Musicsheets.SaversReaders
             File.WriteAllLines(filename,Lines.ToArray());
 
             return 1;
+        }
+
+        protected string TextFromNote(Note n)
+        {
+            string whole = "";
+            string k = n.getKey();
+            string d = Convert.ToString(n.Duration);
+            whole += k;
+            if (n.Octave > 5)
+                whole += "'";
+            else if (n.Octave < 5)
+                whole += ",";
+            whole += d;
+
+            if (n.Punt)
+                whole += ".";
+
+            
+
+            return whole;
         }
 
         public void SetFilename(string Filename)

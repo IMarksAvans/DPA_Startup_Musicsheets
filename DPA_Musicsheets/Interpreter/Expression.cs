@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DPA_Musicsheets
+namespace DPA_Musicsheets.Interpreter
 {
-    interface IReader
+    interface Expression
     {
-        void LoadReserved();
-
-        List<OurTrack> Load(string Filename);
+        bool Interpret(string context);
     }
 }

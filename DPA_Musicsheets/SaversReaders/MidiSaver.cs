@@ -27,7 +27,7 @@ namespace DPA_Musicsheets.SaversReaders
             this._fileName = Filename;
         }
 
-        public int Save()
+        public int Save(string filename)
         {
             return 1;
         }

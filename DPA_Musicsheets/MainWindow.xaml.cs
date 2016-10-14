@@ -43,6 +43,14 @@ namespace DPA_Musicsheets
 
             IReader r = new SaversReaders.MidiReader();
             r.Load("Alle-eendjes-zwemmen-in-het-water.mid");
+
+            IReader LilyReader = new SaversReaders.LilyReader();
+
+            ISaver lilysaver = new SaversReaders.LilySaver();
+            //lilysaver.SetFilename();
+            lilysaver.SetTracks(LilyReader.Load("Alle-eendjes-zwemmen-in-het-water.ly"));
+            lilysaver.Save("test.ly");
+            
             //notenbalk.LoadFromXmlFile("Resources/example.xml");
         }
 

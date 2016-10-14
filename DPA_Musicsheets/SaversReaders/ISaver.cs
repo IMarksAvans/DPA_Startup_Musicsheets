@@ -12,6 +12,6 @@ namespace DPA_Musicsheets
 
         void SetFilename(string Filename);
 
-        int Save();
+        int Save(string filename);
     }
 }

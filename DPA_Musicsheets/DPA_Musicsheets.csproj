@@ -73,10 +73,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="LilyReader.cs" />
+    <Compile Include="Notes\Note.cs" />
     <Compile Include="SaversReaders\IReader.cs" />
     <Compile Include="SaversReaders\ISaver.cs" />
     <Compile Include="MidiTrack.cs" />
     <Compile Include="SaversReaders\LilyReader.cs" />
+    <Compile Include="SaversReaders\LilySaver.cs" />
     <Compile Include="SaversReaders\MidiReader.cs" />
     <Compile Include="SaversReaders\MidiSaver.cs" />
     <Page Include="MainWindow.xaml">
@@ -104,7 +106,6 @@
     <Compile Include="Notes\ENote.cs" />
     <Compile Include="Notes\DNote.cs" />
     <Compile Include="Notes\CNote.cs" />
-    <Compile Include="Notes\AbstractNote.cs" />
     <Compile Include="OurTrack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

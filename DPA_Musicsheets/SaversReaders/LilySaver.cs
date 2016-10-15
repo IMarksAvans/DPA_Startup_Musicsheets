@@ -10,16 +10,20 @@ namespace DPA_Musicsheets.SaversReaders
 {
     class LilySaver : ISaver
     {
-        protected List<OurTrack> tracks;
+        //protected List<OurTrack> tracks;
+
+        protected Song s;
 
         protected string filename = "";
 
         public int Save(string filename)
         {
             this.filename = filename;
+            if (this.s == null)
+                return 0;
             if (filename == "")
                 return 0;
-
+            List<OurTrack> tracks = s.Tracks;
             List<string> Lines = new List<string>();
 
             foreach (OurTrack t in tracks)
@@ -66,9 +70,10 @@ namespace DPA_Musicsheets.SaversReaders
             filename = Filename;
         }
 
-        public void SetTracks(List<OurTrack> Tracks)
+        public void SetSong(Song s)
         {
-            this.tracks = Tracks;
+            this.s = s;
+            //this.tracks = Tracks;
         }
     }
 }

@@ -73,6 +73,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Interpreter\Expression.cs" />
+    <Compile Include="Interpreter\OrExpression.cs" />
     <Compile Include="Interpreter\TerminalExpression.cs" />
     <Compile Include="LilyReader.cs" />
     <Compile Include="Notes\Note.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="SaversReaders\LilySaver.cs" />
     <Compile Include="SaversReaders\MidiReader.cs" />
     <Compile Include="SaversReaders\MidiSaver.cs" />
+    <Compile Include="Song.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -9,17 +9,18 @@ namespace DPA_Musicsheets.SaversReaders
     class MidiSaver : ISaver
     {
         protected string _fileName;
-        protected List<OurTrack> _tracks;
+        protected Song s;//List<OurTrack> _tracks;
 
         MidiSaver()
         {
-            _tracks = new List<OurTrack>();
+            s = null;
+            //_tracks = new List<OurTrack>();
             _fileName = "";
         }
 
-        public void SetTracks(List<OurTrack> Tracks)
+        public void SetSong(Song S)
         {
-            _tracks = Tracks;
+            this.s = s;
         }
 
         public void SetFilename(string Filename)

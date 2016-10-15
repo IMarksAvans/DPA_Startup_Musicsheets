@@ -6,10 +6,17 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets
 {
-    interface IReader
+    public class Song
     {
-        void LoadReserved();
+        public List<OurTrack> Tracks
+        {
+            get;
+            set;
+        }
 
-        Song Load(string Filename);
+        public Song()
+        {
+
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace DPA_Musicsheets
 {
     interface ISaver
     {
-        void SetTracks(List<OurTrack> Tracks);
+        void SetSong(Song s);
 
         void SetFilename(string Filename);
 

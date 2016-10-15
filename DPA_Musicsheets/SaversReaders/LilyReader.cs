@@ -19,8 +19,29 @@ namespace DPA_Musicsheets.SaversReaders
             Filename = "";
         }
 
-        public List<OurTrack> Load(string Filename)
+        public Song Load(string Filename)
         {
+            List<Interpreter.Expression> Expressions = new List<Interpreter.Expression>();
+            Interpreter.Expression exp = new Interpreter.TerminalExpression("}");
+            Expressions.Add(exp);
+            exp = new Interpreter.TerminalExpression("relative");
+            Expressions.Add(exp);
+            exp = new Interpreter.TerminalExpression("clef");
+            Expressions.Add(exp);
+            exp = new Interpreter.TerminalExpression("time");
+            Expressions.Add(exp);
+            exp = new Interpreter.TerminalExpression("tempo");
+            Expressions.Add(exp);
+            exp = new Interpreter.TerminalExpression("repeat");
+            Expressions.Add(exp);
+            exp = new Interpreter.TerminalExpression("alternative");
+            Expressions.Add(exp);
+            exp = new Interpreter.TerminalExpression("{");
+            Expressions.Add(exp);
+            Interpreter.Expression or = new Interpreter.OrExpression(Expressions);
+
+            Song s = new Song();
+
             string[] lines = System.IO.File.ReadAllLines(@"" + Filename);
 
             for (int i = 0; i < lines.Length; i++)
@@ -29,63 +50,87 @@ namespace DPA_Musicsheets.SaversReaders
                 OurTrack track = new OurTrack();
                 track.Notes = new List<Note>();
 
-                if (line.Contains("}"))
+                if (String.IsNullOrEmpty(line))
+                    continue;
+
+                if (or.Interpret(line))
                 {
-                    //throw new Exception("Document is not right threated");
-                }
-                else if (line.Contains("relative") || String.IsNullOrEmpty(line))
-                {
+                    AddToSong(line);
                     continue;
                 }
-                else if (line.Contains("clef"))
-                {
-
-                }
-                else if (line.Contains("time"))
-                {
-
-                }
-                else if (line.Contains("tempo"))
-                {
-
-                }
-                else if (line.Contains("repeat"))
-                {
-                    List<string> repeatList = new List<string>(); 
-                    List<string> altList    = new List<string>();
-                    
-                    int repeatCount = Int32.Parse(Regex.Match(line, @"\d+").Value);
-
-                    i++;
-                    while (!line.Contains("alternative"))
-                    {
-                        line = lines[i];
-                        repeatList.Add(line);
-                        i++;
-                    }
-
-                    while (!line.Contains("}"))
-                    {
-                        line = lines[i];
-                        altList.Add(line);
-                        i++;
-                    }
-
-                    track.Notes.AddRange(readRepeat(repeatList, altList, repeatCount));
-                }
-                else if (line.Contains("{"))
-                {
-                    //something something dark
-                }
-                else //(line.Contains('|')
+                else
                 {
                     track.Notes.AddRange(readNoteLine(line));
+                    Tracks.Add(track);
                 }
-
-                Tracks.Add(track);
+               
             }
 
-            return Tracks;
+            s.Tracks = Tracks;
+
+            return s;
+        }
+
+        private void AddToSong(string line)
+        {
+            if (line.Contains("}"))
+            {
+                //throw new Exception("Document is not right threated");
+            }
+            else if (line.Contains("relative"))
+            {
+            }
+            else if (line.Contains("clef"))
+            {
+
+            }
+            else if (line.Contains("time"))
+            {
+
+            }
+            else if (line.Contains("tempo"))
+            {
+
+            }
+            else if (line.Contains("repeat"))
+            {
+                /*
+                List<string> repeatList = new List<string>();
+                List<string> altList = new List<string>();
+
+                int repeatCount = Int32.Parse(Regex.Match(line, @"\d+").Value);
+
+                i++;
+                while (!line.Contains("alternative"))
+                {
+                    line = lines[i];
+                    repeatList.Add(line);
+                    i++;
+                }
+
+                while (!line.Contains("}"))
+                {
+                    line = lines[i];
+                    altList.Add(line);
+                    i++;
+                }
+                var l = readRepeat(repeatList, altList, repeatCount);
+                Tracks.AddRange(l);
+                continue;
+                //Tracks.Add();
+                //track.Notes.AddRange(readRepeat(repeatList, altList, repeatCount));
+                */
+            }
+            else if (line.Contains("{"))
+            {
+                //something something dark
+            }
+            else //(line.Contains('|')
+            {
+                
+            }
+
+            //Tracks.Add(track);
         }
 
         private List<Note> readNoteLine(string line)
@@ -128,20 +173,31 @@ namespace DPA_Musicsheets.SaversReaders
             return noteList;
         }
 
-        private List<Note> readRepeat(List<string> repeat, List<string> alt, int repeatCount)
+        private List<OurTrack> readRepeat(List<string> repeat, List<string> alt, int repeatCount)
         {
             List<Note> noteList     = new List<Note>();
             List<Note> repeatList   = new List<Note>();
             List<List<Note>> altList      = new List<List<Note>>();
 
+            List<OurTrack> tracks = new List<OurTrack>();
+
             foreach (string line in repeat)
             {
-                repeatList.AddRange(readNoteLine(line));
+                var l = readNoteLine(line);
+                repeatList.AddRange(l);
+                OurTrack t = new OurTrack();
+                t.Notes = l;
+                tracks.Add(t);
+                //t.Notes = 
             }
 
             foreach (string line in alt)
             {
-                altList.Add(readNoteLine(line));
+                var l = readNoteLine(line);
+                altList.Add(l);
+                OurTrack t = new OurTrack();
+                t.Notes = l;
+                tracks.Add(t);
             }
 
             int currentAlt = 0;
@@ -165,7 +221,7 @@ namespace DPA_Musicsheets.SaversReaders
                 repeatCount--;
             }
 
-            return noteList;
+            return tracks;
         }
 
         public void LoadReserved()

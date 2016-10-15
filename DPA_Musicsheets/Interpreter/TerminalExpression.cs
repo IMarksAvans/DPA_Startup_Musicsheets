@@ -8,10 +8,10 @@ namespace DPA_Musicsheets.Interpreter
 {
     class TerminalExpression : Expression
     {
-        public string Data
+        protected string Data;
+        public TerminalExpression(string Data)
         {
-            get;
-            set;
+            this.Data = Data;
         }
 
         public bool Interpret(string context)

@@ -48,7 +48,7 @@ namespace DPA_Musicsheets
 
             ISaver lilysaver = new SaversReaders.LilySaver();
             //lilysaver.SetFilename();
-            lilysaver.SetTracks(LilyReader.Load("Alle-eendjes-zwemmen-in-het-water.ly"));
+            lilysaver.SetSong(LilyReader.Load("Alle-eendjes-zwemmen-in-het-water.ly"));
             lilysaver.Save("test.ly");
             
             //notenbalk.LoadFromXmlFile("Resources/example.xml");

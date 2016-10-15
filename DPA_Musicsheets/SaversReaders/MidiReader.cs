@@ -23,7 +23,7 @@ namespace DPA_Musicsheets.SaversReaders
             Filename = "";
         }
 
-        public List<OurTrack> Load(string Filename)
+        public Song Load(string Filename)
         {
             this.Filename = Filename;
             var sequence = new Sequence();
@@ -55,9 +55,10 @@ namespace DPA_Musicsheets.SaversReaders
                     }
                 }
             }
+            Song s = new Song();
+            s.Tracks = Tracks;
 
-
-            return Tracks;
+            return s;
             //throw new NotImplementedException();
         }
 

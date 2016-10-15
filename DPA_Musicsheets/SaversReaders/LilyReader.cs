@@ -55,12 +55,16 @@ namespace DPA_Musicsheets.SaversReaders
 
                 if (or.Interpret(line))
                 {
-                    AddToSong(line);
+                    AddToSong(line,s);
                     continue;
                 }
                 else
                 {
                     track.Notes.AddRange(readNoteLine(line));
+                    track.BPM = s.Tempo;
+                    track.Time = s.Time;
+                    track.Metronome = s.Metronome;
+
                     Tracks.Add(track);
                 }
                
@@ -71,26 +75,45 @@ namespace DPA_Musicsheets.SaversReaders
             return s;
         }
 
-        private void AddToSong(string line)
+        private void AddToSong(string line,Song s)
         {
-            if (line.Contains("}"))
+            //if (line.Contains("}"))
+            //{
+            //throw new Exception("Document is not right threated");
+            // }
+            // else if (line.Contains("{"))
+            //{
+            //something something dark
+            // }
+            if (line.Contains("relative"))
             {
-                //throw new Exception("Document is not right threated");
-            }
-            else if (line.Contains("relative"))
-            {
+                int oh = line.Count(x => x == '\'');
+                int ol = line.Count(x => x == ',');
+                s.Octave += (oh - ol);
+                s.Relative = line.Substring(line.IndexOf("relative") + 9,1)[0];
             }
             else if (line.Contains("clef"))
             {
-
+                s.Pitch = line.Substring(line.IndexOf("clef") + 5);
             }
             else if (line.Contains("time"))
             {
+                string time = line.Substring(line.IndexOf("time") + 5);
+
+                var times = time.Split('/');
+
+                s.Time = Convert.ToDouble(times[0] +"." +times[1]);
+                //times[0];
+                //times[1];
 
             }
             else if (line.Contains("tempo"))
             {
+                string M = line.Substring(line.IndexOf("tempo") + 6,1);
+                s.Metronome = Convert.ToInt32(M);
 
+                string BPM = line.Substring(line.IndexOf("=") + 1);
+                s.Tempo = Convert.ToInt32(BPM);
             }
             else if (line.Contains("repeat"))
             {
@@ -121,10 +144,7 @@ namespace DPA_Musicsheets.SaversReaders
                 //track.Notes.AddRange(readRepeat(repeatList, altList, repeatCount));
                 */
             }
-            else if (line.Contains("{"))
-            {
-                //something something dark
-            }
+           
             else //(line.Contains('|')
             {
                 

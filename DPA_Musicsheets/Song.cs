@@ -8,7 +8,43 @@ namespace DPA_Musicsheets
 {
     public class Song
     {
+        public int Octave
+        {
+            get;
+            set;
+        }
+
+        public char Relative
+        {
+            get;
+            set;
+        }
+
         public List<OurTrack> Tracks
+        {
+            get;
+            set;
+        }
+
+        public int Tempo
+        {
+            get;
+            set;
+        }
+
+        public double Time
+        {
+            get;
+            set;
+        }
+
+        public string Pitch
+        {
+            get;
+            set;
+        }
+
+        public int Metronome
         {
             get;
             set;
@@ -16,7 +52,8 @@ namespace DPA_Musicsheets
 
         public Song()
         {
-
+            this.Octave = 5;
+            this.Relative = 'e';
         }
     }
 }

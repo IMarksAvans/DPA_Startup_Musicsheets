@@ -25,16 +25,18 @@ namespace DPA_Musicsheets
             set;    
         }
 
-        public string Time
+        public double Time
         {
             get;
             set;
         }
 
-        public string Tempo
+        public int Metronome
         {
             get;
             set;
         }
+
+
     }
 }

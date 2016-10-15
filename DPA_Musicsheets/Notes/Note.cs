@@ -22,6 +22,12 @@ namespace DPA_Musicsheets.Notes
             set;
         } = false;
 
+        public bool IsFlat
+        {
+            get;
+            set;
+        } = false;
+
         public int TicksPosition
         {
             get;

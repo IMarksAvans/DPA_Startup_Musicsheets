@@ -157,6 +157,10 @@ namespace DPA_Musicsheets.SaversReaders
                                 n.DecreaseOctave();
                             else if (c.Equals('.'))
                                 n.Punt = true;
+                            else if (c.Equals('e'))
+                                n.IsFlat = true;
+                            else if (c.Equals('i'))
+                                n.IsSharp = true;
                         }
 
                         i++;

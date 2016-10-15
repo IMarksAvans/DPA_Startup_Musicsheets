@@ -148,7 +148,7 @@ namespace DPA_Musicsheets.SaversReaders
                     {
                         c = line[i];
                         if (Char.IsNumber(c))
-                            n.Duration = Int32.Parse(c.ToString());
+                            n.Duration = (n.Duration == 0) ? Int32.Parse(c.ToString()) : int.Parse(n.Duration.ToString() + c.ToString());
                         else
                         {
                             if (c.Equals('\''))

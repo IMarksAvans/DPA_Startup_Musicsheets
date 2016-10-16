@@ -53,7 +53,12 @@ namespace DPA_Musicsheets
         public Song()
         {
             this.Octave = 5;
-            this.Relative = 'e';
+            this.Relative = ' ';
+            this.Metronome = 0;
+            this.Pitch = "";
+            this.Tempo = 0;
+            this.Time = 0;
+            this.Tracks = new List<OurTrack>();
         }
     }
 }

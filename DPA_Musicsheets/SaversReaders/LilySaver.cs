@@ -23,8 +23,31 @@ namespace DPA_Musicsheets.SaversReaders
                 return 0;
             if (filename == "")
                 return 0;
-            List<OurTrack> tracks = s.Tracks;
+            List<OurTrack> tracks = this.s.Tracks;
             List<string> Lines = new List<string>();
+            string l = "";
+            for (int i = this.s.Octave; i < 5; i++)
+            {
+                l += ",";
+            }
+            for (int i = this.s.Octave; i > 5; i--)
+            {
+                l += "'";
+            }
+            if(this.s.Relative.ToString() != " ")
+                Lines.Add("\\relative " + this.s.Relative.ToString() + l + " {");
+            if(this.s.Pitch != "")
+                Lines.Add("\\clef " + this.s.Pitch);
+            if (this.s.Time != 0)
+            {
+                int time = (int)this.s.Time;
+                string d = this.s.Time.ToString();
+                d = d.Replace(time + ".", "");
+
+                Lines.Add("\\time " + time.ToString() + "/" + d);
+            }
+            if (this.s.Metronome != 0 && this.s.Tempo != 0)
+                Lines.Add("\\tempo " + s.Metronome.ToString() + "=" + s.Tempo.ToString());
 
             foreach (OurTrack t in tracks)
             {
@@ -40,6 +63,9 @@ namespace DPA_Musicsheets.SaversReaders
                 Lines.Add(line);
             }
 
+            if (this.s.Relative.ToString() != "")
+                Lines.Add("}");
+
             File.WriteAllLines(filename,Lines.ToArray());
 
             return 1;
@@ -51,12 +77,15 @@ namespace DPA_Musicsheets.SaversReaders
             string k = n.getKey();
             string d = Convert.ToString(n.Duration);
             whole += k;
-            if (n.Octave > 5)
+            for(int i = n.Octave; i > 5;i--)
                 whole += "'";
-            else if (n.Octave < 5)
+            for(int i = n.Octave; i < 5; i++)
                 whole += ",";
+            if (n.IsSharp)
+                whole += "is";
+            if (n.IsFlat)
+                whole += "es";
             whole += d;
-
             if (n.Punt)
                 whole += ".";
 

@@ -1,4 +1,4 @@
-\relative c' {
+\relative c'
 \clef treble
 \time 44/44
 \tempo 4=120

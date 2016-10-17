@@ -35,36 +35,55 @@ namespace DPA_Musicsheets.SaversReaders
                 l += "'";
             }
             if(this.s.Relative.ToString() != " ")
-                Lines.Add("\\relative " + this.s.Relative.ToString() + l + " {");
+                Lines.Add("\\relative " + this.s.Relative.ToString() + l);
             if(this.s.Pitch != "")
                 Lines.Add("\\clef " + this.s.Pitch);
             if (this.s.Time != 0)
             {
-                int time = (int)this.s.Time;
-                string d = this.s.Time.ToString();
-                d = d.Replace(time + ".", "");
 
-                Lines.Add("\\time " + time.ToString() + "/" + d);
+
+                string time = this.s.Tracks[0].Time.ToString();
+
+                var times = time.Split('.');
+
+                //int time = (int)this.s.Time;
+                //string d = this.s.Time.ToString();
+                //d = d.Replace(time + ".", "");
+
+                Lines.Add("\\time " + times[0].ToString() + "/" + times[1]);
             }
             if (this.s.Metronome != 0 && this.s.Tempo != 0)
                 Lines.Add("\\tempo " + s.Metronome.ToString() + "=" + s.Tempo.ToString());
 
+            OurTrack placeholder = null;
             foreach (OurTrack t in tracks)
             {
+                // tijd veranderd
+                if (placeholder != null && placeholder.Time != t.Time)
+                {
+                    string time = t.Time.ToString();
+
+                    var times = time.Split('.');
+
+                    Lines.Add("\\time " + times[0].ToString() + "/" + times[1]);
+                }
+
+                placeholder = t;
+
+                // voeg note data toe.
                 if (t.Notes.Count == 0)
                     continue;
                 string line = "";
                 foreach (Notes.Note n in t.Notes)
                 {
+
+
                     line += TextFromNote(n);
                     line += " ";
                 }
 
                 Lines.Add(line);
             }
-
-            if (this.s.Relative.ToString() != "")
-                Lines.Add("}");
 
             File.WriteAllLines(filename,Lines.ToArray());
 
@@ -85,7 +104,8 @@ namespace DPA_Musicsheets.SaversReaders
                 whole += "is";
             if (n.IsFlat)
                 whole += "es";
-            whole += d;
+            if(k != "~")
+                whole += d;
             if (n.Punt)
                 whole += ".";
 

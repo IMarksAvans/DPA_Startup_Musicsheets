@@ -52,7 +52,6 @@ namespace DPA_Musicsheets
             lilysaver.Save("test1.ly");
             lilysaver.SetSong(LilyReader.Load("Twee-emmertjes-water-halen.ly"));
             lilysaver.Save("test2.ly");
-
             //notenbalk.LoadFromXmlFile("Resources/example.xml");
         }
 

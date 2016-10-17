@@ -50,6 +50,18 @@ namespace DPA_Musicsheets
             set;
         }
 
+        public bool InRepeat
+        {
+            get;
+            set;
+        }
+
+        public bool InAlternative
+        {
+            get;
+            set;
+        }
+
         public Song()
         {
             this.Octave = 5;

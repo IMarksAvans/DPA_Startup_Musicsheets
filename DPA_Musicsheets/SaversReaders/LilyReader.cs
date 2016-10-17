@@ -23,6 +23,8 @@ namespace DPA_Musicsheets.SaversReaders
         {
             List<Interpreter.Expression> Expressions = new List<Interpreter.Expression>();
             Interpreter.Expression exp;
+            //exp = new Interpreter.TerminalExpression("}");
+            //Expressions.Add(exp);
             exp = new Interpreter.TerminalExpression("relative");
             Expressions.Add(exp);
             exp = new Interpreter.TerminalExpression("clef");
@@ -35,7 +37,6 @@ namespace DPA_Musicsheets.SaversReaders
             Expressions.Add(exp);
             exp = new Interpreter.TerminalExpression("alternative");
             Expressions.Add(exp);
-            
             //exp = new Interpreter.TerminalExpression("{");
             //Expressions.Add(exp);
             Interpreter.Expression or = new Interpreter.OrExpression(Expressions);
@@ -64,6 +65,8 @@ namespace DPA_Musicsheets.SaversReaders
                     track.BPM = s.Tempo;
                     track.Time = s.Time;
                     track.Metronome = s.Metronome;
+                    track.IsRepeat = s.InRepeat;
+                    track.IsAlternative = s.InAlternative;
 
                     Tracks.Add(track);
                 }
@@ -77,14 +80,6 @@ namespace DPA_Musicsheets.SaversReaders
 
         private void AddToSong(string line,Song s)
         {
-            //if (line.Contains("}"))
-            //{
-            //throw new Exception("Document is not right threated");
-            // }
-            // else if (line.Contains("{"))
-            //{
-            //something something dark
-            // }
             if (line.Contains("relative"))
             {
                 int oh = line.Count(x => x == '\'');
@@ -117,37 +112,12 @@ namespace DPA_Musicsheets.SaversReaders
             }
             else if (line.Contains("repeat"))
             {
-                /*
-                List<string> repeatList = new List<string>();
-                List<string> altList = new List<string>();
-
-                int repeatCount = Int32.Parse(Regex.Match(line, @"\d+").Value);
-
-                i++;
-                while (!line.Contains("alternative"))
-                {
-                    line = lines[i];
-                    repeatList.Add(line);
-                    i++;
-                }
-
-                while (!line.Contains("}"))
-                {
-                    line = lines[i];
-                    altList.Add(line);
-                    i++;
-                }
-                var l = readRepeat(repeatList, altList, repeatCount);
-                Tracks.AddRange(l);
-                continue;
-                //Tracks.Add();
-                //track.Notes.AddRange(readRepeat(repeatList, altList, repeatCount));
-                */
+                s.InRepeat = true;
             }
-           
-            else //(line.Contains('|')
+            else if (line.Contains("alternative"))
             {
-                
+                s.InAlternative = true;
+                s.InRepeat = false;
             }
 
             //Tracks.Add(track);
@@ -160,7 +130,7 @@ namespace DPA_Musicsheets.SaversReaders
             for(int i = 0; i < line.Length; i++)
             {
                 Char c = line[i];
-                if (char.IsLetter(c) || c == '~')
+                if (char.IsLetter(c))
                 {
                     Note n = Note.create(c.ToString());
                     i++;
@@ -194,11 +164,8 @@ namespace DPA_Musicsheets.SaversReaders
                     noteList.Add(n);
                 }
             }
-            // dis  =
-            // gis  =
+
             // ~    = door tot in de volgende maat
-            // es   = mol
-            // is   = kruis
 
             return noteList;
         }
@@ -218,7 +185,6 @@ namespace DPA_Musicsheets.SaversReaders
                 OurTrack t = new OurTrack();
                 t.Notes = l;
                 tracks.Add(t);
-                //t.Notes = 
             }
 
             foreach (string line in alt)

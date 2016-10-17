@@ -22,9 +22,10 @@ namespace DPA_Musicsheets.SaversReaders
         public Song Load(string Filename)
         {
             List<Interpreter.Expression> Expressions = new List<Interpreter.Expression>();
-            //Interpreter.Expression exp = new Interpreter.TerminalExpression("}");
+            Interpreter.Expression exp;
+            //exp = new Interpreter.TerminalExpression("}");
             //Expressions.Add(exp);
-            Interpreter.Expression exp = new Interpreter.TerminalExpression("relative");
+            exp = new Interpreter.TerminalExpression("relative");
             Expressions.Add(exp);
             exp = new Interpreter.TerminalExpression("clef");
             Expressions.Add(exp);
@@ -64,6 +65,8 @@ namespace DPA_Musicsheets.SaversReaders
                     track.BPM = s.Tempo;
                     track.Time = s.Time;
                     track.Metronome = s.Metronome;
+                    track.IsRepeat = s.InRepeat;
+                    track.IsAlternative = s.InAlternative;
 
                     Tracks.Add(track);
                 }
@@ -109,12 +112,12 @@ namespace DPA_Musicsheets.SaversReaders
             }
             else if (line.Contains("repeat"))
             {
-                
+                s.InRepeat = true;
             }
-           
-            else //(line.Contains('|')
+            else if (line.Contains("alternative"))
             {
-                
+                s.InAlternative = true;
+                s.InRepeat = false;
             }
 
             //Tracks.Add(track);

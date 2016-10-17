@@ -164,7 +164,7 @@ namespace DPA_Musicsheets.SaversReaders
                 {
                     Note n = Note.create(c.ToString());
                     i++;
-                    while(i < line.Length && !char.IsWhiteSpace(line[i]))
+                    while(i < line.Length && (!char.IsWhiteSpace(line[i])))
                     {
                         c = line[i];
                         if (Char.IsNumber(c))
@@ -177,10 +177,16 @@ namespace DPA_Musicsheets.SaversReaders
                                 n.DecreaseOctave();
                             else if (c.Equals('.'))
                                 n.Punt = true;
-                            else if (c.Equals('e'))
+                            else if (c.Equals('e') && line[i + 1].Equals('s'))
                                 n.IsFlat = true;
-                            else if (c.Equals('i'))
+                            else if (c.Equals('i') && line[i + 1].Equals('s'))
                                 n.IsSharp = true;
+                            else if (char.IsLetter(c) && !c.Equals('s'))
+                            {
+                                i--;
+                                break;
+                            }
+                            
                         }
 
                         i++;

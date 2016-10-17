@@ -2,7 +2,7 @@
 \clef treble
 \time 6/8
 \tempo 4=120
-g''4. a888 
+g''4. a8 a8 a8 
 g4 g8 e4 c8 
 f4 g8 a4 b8 
 c8 g8 e8 c8 r4 

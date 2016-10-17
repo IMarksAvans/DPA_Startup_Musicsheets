@@ -19,6 +19,18 @@ namespace DPA_Musicsheets
 
         }
 
+        public bool IsRepeat
+        {
+            get;
+            set;
+        }
+
+        public bool IsAlternative
+        {
+            get;
+            set;
+        }
+
         public int BPM
         {
             get;

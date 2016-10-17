@@ -22,8 +22,7 @@ namespace DPA_Musicsheets.SaversReaders
         public Song Load(string Filename)
         {
             List<Interpreter.Expression> Expressions = new List<Interpreter.Expression>();
-            Interpreter.Expression exp = new Interpreter.TerminalExpression("}");
-            Expressions.Add(exp);
+            Interpreter.Expression exp;
             exp = new Interpreter.TerminalExpression("relative");
             Expressions.Add(exp);
             exp = new Interpreter.TerminalExpression("clef");
@@ -36,8 +35,9 @@ namespace DPA_Musicsheets.SaversReaders
             Expressions.Add(exp);
             exp = new Interpreter.TerminalExpression("alternative");
             Expressions.Add(exp);
-            exp = new Interpreter.TerminalExpression("{");
-            Expressions.Add(exp);
+            
+            //exp = new Interpreter.TerminalExpression("{");
+            //Expressions.Add(exp);
             Interpreter.Expression or = new Interpreter.OrExpression(Expressions);
 
             Song s = new Song();
@@ -160,7 +160,7 @@ namespace DPA_Musicsheets.SaversReaders
             for(int i = 0; i < line.Length; i++)
             {
                 Char c = line[i];
-                if (char.IsLetter(c))
+                if (char.IsLetter(c) || c == '~')
                 {
                     Note n = Note.create(c.ToString());
                     i++;

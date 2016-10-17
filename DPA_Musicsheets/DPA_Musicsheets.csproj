@@ -77,6 +77,7 @@
     <Compile Include="Interpreter\TerminalExpression.cs" />
     <Compile Include="LilyReader.cs" />
     <Compile Include="Notes\Note.cs" />
+    <Compile Include="Notes\TieNote.cs" />
     <Compile Include="SaversReaders\IReader.cs" />
     <Compile Include="SaversReaders\ISaver.cs" />
     <Compile Include="MidiTrack.cs" />

@@ -49,8 +49,11 @@ namespace DPA_Musicsheets.SaversReaders
                 //int time = (int)this.s.Time;
                 //string d = this.s.Time.ToString();
                 //d = d.Replace(time + ".", "");
-
-                Lines.Add("\\time " + times[0].ToString() + "/" + times[1]);
+                if (times.Count() >= 2)
+                {
+                    Lines.Add("\\time " + times[0].ToString() + "/" + times[1]);
+                }
+                
             }
             if (this.s.Metronome != 0 && this.s.Tempo != 0)
                 Lines.Add("\\tempo " + s.Metronome.ToString() + "=" + s.Tempo.ToString());
@@ -64,7 +67,7 @@ namespace DPA_Musicsheets.SaversReaders
                     string time = t.Time.ToString();
 
                     var times = time.Split('.');
-
+                    if (times.Count() >= 2)
                     Lines.Add("\\time " + times[0].ToString() + "/" + times[1]);
                 }
 

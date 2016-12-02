@@ -57,3 +57,5 @@ C:\Users\Sam\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\
 C:\Users\Sam\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets.pdb
 C:\Users\Sam\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\NAudio.dll
 C:\Users\Sam\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\NAudio.xml
+C:\Users\mark_\Documents\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\NAudio.dll
+C:\Users\mark_\Documents\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\NAudio.xml

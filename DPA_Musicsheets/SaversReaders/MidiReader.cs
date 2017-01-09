@@ -48,7 +48,17 @@ namespace DPA_Musicsheets.SaversReaders
                             var channelMessage = mevent.MidiMessage as ChannelMessage;
                             if (mevent.DeltaTicks == 0)
                                 continue;
-                            var note = CreateNote(channelMessage.Data1, channelMessage.Command, mevent.AbsoluteTicks, mevent.DeltaTicks);
+                            
+                            int data = 0;
+                            if (channelMessage.Command == ChannelCommand.NoteOn)
+                            {
+                                data = channelMessage.Data1;
+                            }
+                            else if (channelMessage.Command == ChannelCommand.NoteOff)
+                            {
+                                data = channelMessage.Data2;
+                            }
+                            var note = CreateNote(data, channelMessage.Command, mevent.AbsoluteTicks, mevent.DeltaTicks);
                             if (note != null)
                                 track.Notes.Add(note);
                             break;
@@ -74,7 +84,6 @@ namespace DPA_Musicsheets.SaversReaders
         protected Notes.Note CreateNote(int data1, ChannelCommand command, int absoluteTicks, int deltaTicks)
         {
             Notes.Note Note = null;
-
             if (data1 % 12 == 0)
             {
                 Note = Notes.Note.create("c");//new Notes.CNote();

@@ -46,9 +46,14 @@ namespace DPA_Musicsheets.SaversReaders
                     {
                         case MessageType.Channel:
                             var channelMessage = mevent.MidiMessage as ChannelMessage;
+                            if (mevent.DeltaTicks == 0)
+                                continue;
                             var note = CreateNote(channelMessage.Data1, channelMessage.Command, mevent.AbsoluteTicks, mevent.DeltaTicks);
                             if (note != null)
                                 track.Notes.Add(note);
+                            break;
+                        case MessageType.Meta:
+                            var Message = mevent.MidiMessage as MetaMessage;
                             break;
                         default:
                             break;
@@ -132,7 +137,7 @@ namespace DPA_Musicsheets.SaversReaders
 
             if (Note != null)
             {
-                Note.Duration = deltaTicks;
+                Note.Duration = deltaTicks/1536;
                 Note.TicksPosition = absoluteTicks;
                 Note.NotePos = data1;
             }

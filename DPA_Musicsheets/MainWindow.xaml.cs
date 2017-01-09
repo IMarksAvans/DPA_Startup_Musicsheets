@@ -33,7 +33,9 @@ namespace DPA_Musicsheets
         // Hierop gaan we audio streamen.
         // DeviceID 0 is je audio van je PC zelf.
         private OutputDevice _outputDevice = new OutputDevice(0);
-
+        private IReader r;
+        private ISaver s;
+        private Song currentSong;
         public MainWindow()
         {
             this.MidiTracks = new ObservableCollection<MidiTrack>();
@@ -41,8 +43,8 @@ namespace DPA_Musicsheets
             DataContext = MidiTracks;
             FillPSAMViewer();
 
-            IReader r = new SaversReaders.MidiReader();
-            r.Load("Alle-eendjes-zwemmen-in-het-water.mid");
+            s = new SaversReaders.LilySaver();
+            /*r.Load("Alle-eendjes-zwemmen-in-het-water.mid");
 
             IReader LilyReader = new SaversReaders.LilyReader();
 
@@ -51,7 +53,7 @@ namespace DPA_Musicsheets
             lilysaver.SetSong(LilyReader.Load("Alle-eendjes-zwemmen-in-het-water.ly"));
             lilysaver.Save("test1.ly");
             lilysaver.SetSong(LilyReader.Load("Twee-emmertjes-water-halen.ly"));
-            lilysaver.Save("test2.ly");
+            lilysaver.Save("test2.ly");*/
             //notenbalk.LoadFromXmlFile("Resources/example.xml");
         }
 
@@ -114,6 +116,16 @@ namespace DPA_Musicsheets
             if (openFileDialog.ShowDialog() == true)
             {
                 txt_MidiFilePath.Text = openFileDialog.FileName;
+                if (txt_MidiFilePath.Text.Substring(txt_MidiFilePath.Text.Length - 2, 2) == "ly")
+                {
+                    r = new SaversReaders.LilyReader();
+                    currentSong = r.Load(txt_MidiFilePath.Text);
+                }
+                else if (txt_MidiFilePath.Text.Substring(txt_MidiFilePath.Text.Length - 3, 3) == "mid")
+                {
+                    r = new SaversReaders.MidiReader();
+                    currentSong = r.Load(txt_MidiFilePath.Text);
+                }
             }
         }
         
@@ -155,6 +167,12 @@ namespace DPA_Musicsheets
             {
                 _player.Dispose();
             }
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            s.SetSong(currentSong);
+            s.Save(txtFilename.Text);
         }
     }
 }

@@ -85,7 +85,8 @@ namespace DPA_Musicsheets.SaversReaders
         {
             Notes.Note Note = null;
             if (data1 % 12 == 0)
-            {
+            { 
+               
                 Note = Notes.Note.create("c");//new Notes.CNote();
             }
             else if ((data1 - 1) % 12 == 0)
@@ -96,6 +97,7 @@ namespace DPA_Musicsheets.SaversReaders
             }
             else if ((data1 - 2) % 12 == 0)
             {
+                
                 Note = Notes.Note.create("d");
             }
             else if ((data1 - 3) % 12 == 0)
@@ -121,6 +123,7 @@ namespace DPA_Musicsheets.SaversReaders
             }
             else if ((data1 - 7) % 12 == 0)
             {
+                
                 Note = Notes.Note.create("g");
             }
             else if ((data1 - 8) % 12 == 0)
@@ -146,7 +149,14 @@ namespace DPA_Musicsheets.SaversReaders
 
             if (Note != null)
             {
-                Note.Duration = deltaTicks/1536;
+                int octave = data1 / 12;
+
+                if (octave > 5 || octave < 5)
+                    Note.Octave = octave;
+
+                Note.Duration = 1536/deltaTicks;
+                if (Note.Duration % 2 == 1)
+                    Note.Punt = true;
                 Note.TicksPosition = absoluteTicks;
                 Note.NotePos = data1;
             }

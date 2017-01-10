@@ -72,6 +72,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Command\Command.cs" />
+    <Compile Include="Command\Invoker.cs" />
+    <Compile Include="Command\Receiver.cs" />
     <Compile Include="CoR\KeyCommand.cs" />
     <Compile Include="Interpreter\Expression.cs" />
     <Compile Include="Interpreter\OrExpression.cs" />

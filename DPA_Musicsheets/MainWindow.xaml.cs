@@ -62,9 +62,15 @@ namespace DPA_Musicsheets
             staff.ClearMusicalIncipit();
 
             // Clef = sleutel
-            staff.AddMusicalSymbol(new Clef(ClefType.GClef, 2));
-            staff.AddMusicalSymbol(new TimeSignature(TimeSignatureType.Numbers, 4, 4));
-
+            // had perfect kunnen zijn voor een interpreter
+            if(currentSong.Pitch.Contains("treble"))
+                staff.AddMusicalSymbol(new Clef(ClefType.GClef, 2));
+            else if(currentSong.Pitch.Contains("alto") || currentSong.Pitch.Contains("tenor"))
+                staff.AddMusicalSymbol(new Clef(ClefType.CClef, 2));
+            else if (currentSong.Pitch.Contains("bass"))
+                staff.AddMusicalSymbol(new Clef(ClefType.FClef, 2));
+            //staff.AddMusicalSymbol(new TimeSignature(TimeSignatureType.Numbers, (uint)currentSong.Tempo, 4));
+            //staff.AddMusicalSymbol()
             foreach (var track in currentSong.Tracks)
             {
                 foreach (var note in track.Notes)
@@ -73,7 +79,7 @@ namespace DPA_Musicsheets
                     var alternation = note.IsSharp ? 1 : (note.IsFlat ? -1 : 0);
                     var octave = note.Octave;
                     var duration = (MusicalSymbolDuration)note.Duration;
-                    var direction = (int) note.Octave > 5 ? NoteStemDirection.Down : NoteStemDirection.Up;
+                    var direction = (int) note.Octave < 5 ? NoteStemDirection.Down : NoteStemDirection.Up;
                     var tie = NoteTieType.None;
                     var beam = new List<NoteBeamType>() { NoteBeamType.Start, NoteBeamType.Start };
 

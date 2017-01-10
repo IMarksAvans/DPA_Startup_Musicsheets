@@ -41,7 +41,7 @@ namespace DPA_Musicsheets
             this.MidiTracks = new ObservableCollection<MidiTrack>();
             InitializeComponent();
             DataContext = MidiTracks;
-            FillPSAMViewer();
+            //FillPSAMViewer();
 
             s = new SaversReaders.LilySaver();
             /*r.Load("Alle-eendjes-zwemmen-in-het-water.mid");
@@ -59,23 +59,48 @@ namespace DPA_Musicsheets
 
         private void FillPSAMViewer()
         {
-
-
             staff.ClearMusicalIncipit();
 
             // Clef = sleutel
             staff.AddMusicalSymbol(new Clef(ClefType.GClef, 2));
-            staff.AddMusicalSymbol(new TimeSignature(TimeSignatureType.Numbers, 4, 4));
+            staff.AddMusicalSymbol(new TimeSignature(TimeSignatureType.Numbers, (uint) currentSong.Time, (uint) currentSong.Tempo));
 
-            if (currentSong != null)
+            foreach (var track in currentSong.Tracks)
             {
-                foreach (var track in currentSong.Tracks)
+                var durationSet = 0;
+
+                foreach (var note in track.Notes)
                 {
-                    foreach (var note in track.Notes)
+                    durationSet += note.Duration;
+
+                    var key = note.getKey().ToUpper();
+                    var alternation = note.IsSharp ? 1 : (note.IsFlat ? -1 : 0);
+                    var octave = note.Octave;
+                    var duration = (MusicalSymbolDuration)note.Duration;
+                    var direction = (note.Octave > 4 ? NoteStemDirection.Down : NoteStemDirection.Up);
+                    var tie = NoteTieType.None;
+                    List<NoteBeamType> beam;
+                    if (durationSet >= currentSong.Time)
                     {
-                        staff.AddMusicalSymbol(new Note(note.getKey(), (note.IsSharp ? 1 : (note.IsFlat ? -1 : 0)), note.Octave, (MusicalSymbolDuration)note.Duration, NoteStemDirection.Down, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Start, NoteBeamType.Start }) { NumberOfDots = (note.Punt ? 1 : 0) });
+                        beam = new List<NoteBeamType>() { NoteBeamType.End };
+                    }
+                    else
+                    {
+                        beam = new List<NoteBeamType>() { NoteBeamType.Start };
+                    }
+
+                    beam = new List<NoteBeamType>() { NoteBeamType.Start, NoteBeamType.Start };
+
+                    var dots = note.Punt ? 1 : 0;
+
+                    staff.AddMusicalSymbol(new Note(key, alternation, octave, duration, direction, tie, beam) { NumberOfDots = dots });
+
+                    if (durationSet >= currentSong.Time)
+                    {
+                        durationSet = 0;
                     }
                 }
+                staff.AddMusicalSymbol(new Barline());
             }
             /*  
                 The first argument of Note constructor is a string representing one of the following names of steps: A, B, C, D, E, F, G. 

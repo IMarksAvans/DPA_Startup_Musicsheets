@@ -59,12 +59,25 @@ namespace DPA_Musicsheets
 
         private void FillPSAMViewer()
         {
+
+
             staff.ClearMusicalIncipit();
 
             // Clef = sleutel
             staff.AddMusicalSymbol(new Clef(ClefType.GClef, 2));
             staff.AddMusicalSymbol(new TimeSignature(TimeSignatureType.Numbers, 4, 4));
-            /* 
+
+            IReader r = new SaversReaders.MidiReader();
+            currentSong = r.Load("Alle-eendjes-zwemmen-in-het-water.mid");
+
+            foreach (var track in currentSong.Tracks)
+            {
+                foreach (var note in track.Notes)
+                {
+                    staff.AddMusicalSymbol(new Note(note.getKey(), (note.IsSharp ? 1 : (note.IsFlat ? -1 : 0)), note.Octave, (MusicalSymbolDuration) note.Duration, NoteStemDirection.Down, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Start, NoteBeamType.Start }) { NumberOfDots = (note.Punt ? 1 : 0) });
+                }
+            }
+            /*  
                 The first argument of Note constructor is a string representing one of the following names of steps: A, B, C, D, E, F, G. 
                 The second argument is number of sharps (positive number) or flats (negative number) where 0 means no alteration. 
                 The third argument is the number of an octave. 

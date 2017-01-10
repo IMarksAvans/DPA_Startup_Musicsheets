@@ -63,42 +63,23 @@ namespace DPA_Musicsheets
 
             // Clef = sleutel
             staff.AddMusicalSymbol(new Clef(ClefType.GClef, 2));
-            staff.AddMusicalSymbol(new TimeSignature(TimeSignatureType.Numbers, (uint) currentSong.Time, (uint) currentSong.Tempo));
+            staff.AddMusicalSymbol(new TimeSignature(TimeSignatureType.Numbers, 4, 4));
 
             foreach (var track in currentSong.Tracks)
             {
-                var durationSet = 0;
-
                 foreach (var note in track.Notes)
                 {
-                    durationSet += note.Duration;
-
                     var key = note.getKey().ToUpper();
                     var alternation = note.IsSharp ? 1 : (note.IsFlat ? -1 : 0);
                     var octave = note.Octave;
                     var duration = (MusicalSymbolDuration)note.Duration;
-                    var direction = (note.Octave > 4 ? NoteStemDirection.Down : NoteStemDirection.Up);
+                    var direction = (int) note.Octave > 5 ? NoteStemDirection.Down : NoteStemDirection.Up;
                     var tie = NoteTieType.None;
-                    List<NoteBeamType> beam;
-                    if (durationSet >= currentSong.Time)
-                    {
-                        beam = new List<NoteBeamType>() { NoteBeamType.End };
-                    }
-                    else
-                    {
-                        beam = new List<NoteBeamType>() { NoteBeamType.Start };
-                    }
-
-                    beam = new List<NoteBeamType>() { NoteBeamType.Start, NoteBeamType.Start };
+                    var beam = new List<NoteBeamType>() { NoteBeamType.Start, NoteBeamType.Start };
 
                     var dots = note.Punt ? 1 : 0;
 
                     staff.AddMusicalSymbol(new Note(key, alternation, octave, duration, direction, tie, beam) { NumberOfDots = dots });
-
-                    if (durationSet >= currentSong.Time)
-                    {
-                        durationSet = 0;
-                    }
                 }
                 staff.AddMusicalSymbol(new Barline());
             }

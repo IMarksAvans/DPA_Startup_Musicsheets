@@ -79,13 +79,15 @@ namespace DPA_Musicsheets
                     var alternation = note.IsSharp ? 1 : (note.IsFlat ? -1 : 0);
                     var octave = note.Octave;
                     var duration = (MusicalSymbolDuration)note.Duration;
-                    var direction = (int) note.Octave < 5 ? NoteStemDirection.Down : NoteStemDirection.Up;
+                    var direction = (int) note.Octave > 5 ? NoteStemDirection.Down : NoteStemDirection.Up;
                     var tie = NoteTieType.None;
-                    var beam = new List<NoteBeamType>() { NoteBeamType.Start, NoteBeamType.Start };
+                    var beam = new List<NoteBeamType>() { NoteBeamType.Start};
 
                     var dots = note.Punt ? 1 : 0;
-
-                    staff.AddMusicalSymbol(new Note(key, alternation, octave, duration, direction, tie, beam) { NumberOfDots = dots });
+                    var n = new Note(key, alternation, octave, duration, direction, tie, beam); //{ NumberOfDots = dots }
+                    n.CurrentTempo = currentSong.Tempo;
+                    n.NumberOfDots = dots;
+                    staff.AddMusicalSymbol(n);
                 }
                 staff.AddMusicalSymbol(new Barline());
             }

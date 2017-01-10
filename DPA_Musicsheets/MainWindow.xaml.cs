@@ -67,14 +67,14 @@ namespace DPA_Musicsheets
             staff.AddMusicalSymbol(new Clef(ClefType.GClef, 2));
             staff.AddMusicalSymbol(new TimeSignature(TimeSignatureType.Numbers, 4, 4));
 
-            IReader r = new SaversReaders.MidiReader();
-            currentSong = r.Load("Alle-eendjes-zwemmen-in-het-water.mid");
-
-            foreach (var track in currentSong.Tracks)
+            if (currentSong != null)
             {
-                foreach (var note in track.Notes)
+                foreach (var track in currentSong.Tracks)
                 {
-                    staff.AddMusicalSymbol(new Note(note.getKey(), (note.IsSharp ? 1 : (note.IsFlat ? -1 : 0)), note.Octave, (MusicalSymbolDuration) note.Duration, NoteStemDirection.Down, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Start, NoteBeamType.Start }) { NumberOfDots = (note.Punt ? 1 : 0) });
+                    foreach (var note in track.Notes)
+                    {
+                        staff.AddMusicalSymbol(new Note(note.getKey(), (note.IsSharp ? 1 : (note.IsFlat ? -1 : 0)), note.Octave, (MusicalSymbolDuration)note.Duration, NoteStemDirection.Down, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Start, NoteBeamType.Start }) { NumberOfDots = (note.Punt ? 1 : 0) });
+                    }
                 }
             }
             /*  
@@ -140,6 +140,8 @@ namespace DPA_Musicsheets
                     currentSong = r.Load(txt_MidiFilePath.Text);
                 }
             }
+
+            FillPSAMViewer();
         }
         
         private void btn_Stop_Click(object sender, RoutedEventArgs e)

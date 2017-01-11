@@ -18,7 +18,7 @@
         <Button x:Name="btn_Stop" Content="Stop" HorizontalAlignment="Left" Margin="433,11,0,0" VerticalAlignment="Top" Width="75" Click="btn_Stop_Click"/>
         <Button x:Name="btn_ShowContent" Content="Show content" HorizontalAlignment="Left" Margin="353,35,0,0" VerticalAlignment="Top" Width="155" Click="btn_ShowContent_Click" Grid.ColumnSpan="2"/>
 
-        <TabControl x:Name="tabCtrl_MidiContent" HorizontalAlignment="Left" Height="227" Margin="10,59,0,0" VerticalAlignment="Top" Width="498" ItemsSource="{Binding}" Grid.ColumnSpan="2">
+        <!--<TabControl x:Name="tabCtrl_MidiContent" HorizontalAlignment="Left" Height="227" Margin="10,59,0,0" VerticalAlignment="Top" Width="498" ItemsSource="{Binding}" Grid.ColumnSpan="2">
             <TabControl.ItemContainerStyle>
                 <Style TargetType="{x:Type TabItem}">
                     <Setter Property="Header">
@@ -40,9 +40,16 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
-        <PSAMWPFControl:IncipitViewerWPF HorizontalAlignment="Left" Margin="0,324,-8,25" Width="525" x:Name="staff" Grid.ColumnSpan="2" >
-        </PSAMWPFControl:IncipitViewerWPF>
+        -->
+        <TextBox Name="Displayer" TextWrapping="Wrap" AcceptsReturn="True" Margin="10,81,283.5,10.5"/>
         <Button x:Name="btnSave" Content="Save to lilypond" HorizontalAlignment="Left" Margin="568,11,0,0" VerticalAlignment="Top" Width="120" Click="btnSave_Click"/>
         <TextBox x:Name="txtFilename" HorizontalAlignment="Left" Height="23" Margin="568,45,0,0" TextWrapping="Wrap" Text="Lilyfile.ly" VerticalAlignment="Top" Width="216"/>
+
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,91,29,10.5" Width="406" HorizontalAlignment="Right" Background="#FFFCDF" Grid.ColumnSpan="2">
+            <Grid Name="sheetGrid" Margin="0,0,0,0" >
+                <PSAMWPFControl:IncipitViewerWPF Margin="0,0,0,110" x:Name="staff" >
+                </PSAMWPFControl:IncipitViewerWPF>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Window>

@@ -106,7 +106,6 @@ namespace DPA_Musicsheets
                         viewer.AddMusicalSymbol(s2);
                         viewer.AddMusicalSymbol(e); 
             */
-
             staff.AddMusicalSymbol(new Note("A", 0, 4, MusicalSymbolDuration.Sixteenth, NoteStemDirection.Down, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Start, NoteBeamType.Start }));
             staff.AddMusicalSymbol(new Note("C", 1, 5, MusicalSymbolDuration.Sixteenth, NoteStemDirection.Down, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Continue, NoteBeamType.End }));
             staff.AddMusicalSymbol(new Note("D", 0, 5, MusicalSymbolDuration.Eighth, NoteStemDirection.Down, NoteTieType.Start, new List<NoteBeamType>() { NoteBeamType.End }));
@@ -147,6 +146,8 @@ namespace DPA_Musicsheets
                 {
                     r = new SaversReaders.LilyReader();
                     currentSong = r.Load(txt_MidiFilePath.Text);
+                    string[] content = File.ReadAllLines(@"" + txt_MidiFilePath.Text);
+                    Displayer.Text = string.Join("\n", content);
                 }
                 else if (txt_MidiFilePath.Text.Substring(txt_MidiFilePath.Text.Length - 3, 3) == "mid")
                 {
@@ -186,7 +187,7 @@ namespace DPA_Musicsheets
                 MidiTracks.Add(midiTrack);
             }
 
-            tabCtrl_MidiContent.SelectedIndex = 0;
+            //tabCtrl_MidiContent.SelectedIndex = 0;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

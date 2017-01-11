@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -32,29 +33,45 @@ namespace DPA_Musicsheets
         // De OutputDevice is een midi device of het midikanaal van je PC.
         // Hierop gaan we audio streamen.
         // DeviceID 0 is je audio van je PC zelf.
+        private Timer GenerationTimer { get; set; }
         private OutputDevice _outputDevice = new OutputDevice(0);
+        private List<String> Mementos = new List<String>();
         private IReader r;
         private ISaver s;
         private Song currentSong;
+
         public MainWindow()
         {
+            GenerationTimer = new Timer() { Interval = 1500 };
+            GenerationTimer.Elapsed += GenerationTimer_Elapsed;
+
+            InitializeComponent();
+
             this.MidiTracks = new ObservableCollection<MidiTrack>();
             InitializeComponent();
             DataContext = MidiTracks;
-            //FillPSAMViewer();
-
             s = new SaversReaders.LilySaver();
-            /*r.Load("Alle-eendjes-zwemmen-in-het-water.mid");
+        }
 
-            IReader LilyReader = new SaversReaders.LilyReader();
+        private void GenerationTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                Mementos.Add(Displayer.Text);
+                FillPSAMViewer();
+            });
+            GenerationTimer.Stop();
+        }
 
-            ISaver lilysaver = new SaversReaders.LilySaver();
-            //lilysaver.SetFilename();
-            lilysaver.SetSong(LilyReader.Load("Alle-eendjes-zwemmen-in-het-water.ly"));
-            lilysaver.Save("test1.ly");
-            lilysaver.SetSong(LilyReader.Load("Twee-emmertjes-water-halen.ly"));
-            lilysaver.Save("test2.ly");*/
-            //notenbalk.LoadFromXmlFile("Resources/example.xml");
+        private void lilypondTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ResetTimer();
+        }
+
+        private void ResetTimer()
+        {
+            GenerationTimer.Stop();
+            GenerationTimer.Start();
         }
 
         private void FillPSAMViewer()
@@ -146,8 +163,7 @@ namespace DPA_Musicsheets
                 {
                     r = new SaversReaders.LilyReader();
                     currentSong = r.Load(txt_MidiFilePath.Text);
-                    string[] content = File.ReadAllLines(@"" + txt_MidiFilePath.Text);
-                    Displayer.Text = string.Join("\n", content);
+                    Displayer.Text = getTextFromLilypond();
                 }
                 else if (txt_MidiFilePath.Text.Substring(txt_MidiFilePath.Text.Length - 3, 3) == "mid")
                 {
@@ -204,5 +220,24 @@ namespace DPA_Musicsheets
             s.SetSong(currentSong);
             s.Save(txtFilename.Text);
         }
+
+        private string getTextFromLilypond()
+        {
+            string[] content = File.ReadAllLines(@"" + txt_MidiFilePath.Text);
+            return string.Join("\n", content);
+        }
     }
 }
+
+
+
+/*r.Load("Alle-eendjes-zwemmen-in-het-water.mid");
+IReader LilyReader = new SaversReaders.LilyReader();
+ISaver lilysaver = new SaversReaders.LilySaver();
+lilysaver.SetFilename();
+lilysaver.SetSong(LilyReader.Load("Alle-eendjes-zwemmen-in-het-water.ly"));
+lilysaver.Save("test1.ly");
+lilysaver.SetSong(LilyReader.Load("Twee-emmertjes-water-halen.ly"));
+lilysaver.Save("test2.ly");
+notenbalk.LoadFromXmlFile("Resources/example.xml");
+*/

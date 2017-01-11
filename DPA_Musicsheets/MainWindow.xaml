@@ -41,7 +41,7 @@
             </TabControl.ContentTemplate>
         </TabControl>
         -->
-        <TextBox Name="Displayer" TextWrapping="Wrap" AcceptsReturn="True" Margin="10,81,283.5,10.5"/>
+        <TextBox Name="Displayer" TextWrapping="Wrap" AcceptsReturn="True" Margin="10,81,283.5,10.5" TextChanged="lilypondTextBox_TextChanged"/>
         <Button x:Name="btnSave" Content="Save to lilypond" HorizontalAlignment="Left" Margin="568,11,0,0" VerticalAlignment="Top" Width="120" Click="btnSave_Click"/>
         <TextBox x:Name="txtFilename" HorizontalAlignment="Left" Height="23" Margin="568,45,0,0" TextWrapping="Wrap" Text="Lilyfile.ly" VerticalAlignment="Top" Width="216"/>
 

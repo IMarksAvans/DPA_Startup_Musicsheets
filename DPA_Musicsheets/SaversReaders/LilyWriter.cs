@@ -8,21 +8,20 @@ using DPA_Musicsheets.Notes;
 
 namespace DPA_Musicsheets.SaversReaders
 {
-    class LilySaver : ISaver
+    class LilyWriter : IWriter
     {
         //protected List<OurTrack> tracks;
 
         protected Song s;
+        
+        string[] lines;
 
-        protected string filename = "";
-
-        public int Save(string filename)
+        public string[] GetContent()
         {
-            this.filename = filename;
+            this.lines = null;
+
             if (this.s == null)
-                return 0;
-            if (filename == "")
-                return 0;
+                return null;
             List<OurTrack> tracks = this.s.Tracks;
             List<string> Lines = new List<string>();
             string l = "";
@@ -44,7 +43,7 @@ namespace DPA_Musicsheets.SaversReaders
 
                 string time = this.s.Tracks[0].Time.ToString();
 
-                var times = time.Split('.');
+                var times = time.Split(',');
 
                 //int time = (int)this.s.Time;
                 //string d = this.s.Time.ToString();
@@ -87,8 +86,19 @@ namespace DPA_Musicsheets.SaversReaders
 
                 Lines.Add(line);
             }
+            this.lines = Lines.ToArray();
+            return Lines.ToArray();
+        }
 
-            File.WriteAllLines(filename,Lines.ToArray());
+        public int Save(string Filename)
+        {
+            if (Filename == "")
+                return 0;
+            if (this.s == null)
+                return 0;
+
+            this.GetContent();
+            File.WriteAllLines(Filename, lines);
 
             return 1;
         }
@@ -115,11 +125,6 @@ namespace DPA_Musicsheets.SaversReaders
             
 
             return whole;
-        }
-
-        public void SetFilename(string Filename)
-        {
-            filename = Filename;
         }
 
         public void SetSong(Song s)

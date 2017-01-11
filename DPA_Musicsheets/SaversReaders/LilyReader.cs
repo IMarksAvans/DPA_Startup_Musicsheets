@@ -19,8 +19,10 @@ namespace DPA_Musicsheets.SaversReaders
             Filename = "";
         }
 
-        public Song Load(string Filename)
+        public Song Load(string[] lines)
         {
+            Song s = new Song();
+
             List<Interpreter.Expression> Expressions = new List<Interpreter.Expression>();
             Interpreter.Expression exp;
             //exp = new Interpreter.TerminalExpression("}");
@@ -41,10 +43,6 @@ namespace DPA_Musicsheets.SaversReaders
             //Expressions.Add(exp);
             Interpreter.Expression or = new Interpreter.OrExpression(Expressions);
 
-            Song s = new Song();
-
-            string[] lines = System.IO.File.ReadAllLines(@"" + Filename);
-
             for (int i = 0; i < lines.Length; i++)
             {
                 String line = lines[i];
@@ -56,7 +54,7 @@ namespace DPA_Musicsheets.SaversReaders
 
                 if (or.Interpret(line))
                 {
-                    AddToSong(line,s);
+                    AddToSong(line, s);
                     continue;
                 }
                 else
@@ -70,12 +68,17 @@ namespace DPA_Musicsheets.SaversReaders
 
                     Tracks.Add(track);
                 }
-               
+
             }
 
             s.Tracks = Tracks;
 
             return s;
+        }
+
+        public Song Load(string Filename)
+        {
+            return Load(System.IO.File.ReadAllLines(@"" + Filename));
         }
 
         private void AddToSong(string line,Song s)
@@ -97,7 +100,7 @@ namespace DPA_Musicsheets.SaversReaders
 
                 var times = time.Split('/');
 
-                s.Time = Convert.ToDouble(times[0] +"." +times[1]);
+                s.Time = Convert.ToDouble(times[0] + ',' + times[1]);
                 //times[0];
                 //times[1];
 

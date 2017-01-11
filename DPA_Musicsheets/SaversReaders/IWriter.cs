@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets
 {
-    interface ISaver
+    interface IWriter
     {
         void SetSong(Song s);
 
-        void SetFilename(string Filename);
+        string[] GetContent();
 
-        int Save(string filename);
+        int Save(string Filename);
     }
 }

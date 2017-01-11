@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using PSAMControlLibrary;
+using PSAMWPFControlLibrary;
 using Sanford.Multimedia.Midi;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ namespace DPA_Musicsheets
         private OutputDevice _outputDevice = new OutputDevice(0);
         private List<String> Mementos = new List<String>();
         private IReader r;
-        private ISaver s;
+        private IWriter w;
         private Song currentSong;
 
         public MainWindow()
@@ -50,7 +51,7 @@ namespace DPA_Musicsheets
             this.MidiTracks = new ObservableCollection<MidiTrack>();
             InitializeComponent();
             DataContext = MidiTracks;
-            s = new SaversReaders.LilySaver();
+            w = new SaversReaders.LilyWriter();
         }
 
         private void GenerationTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -58,6 +59,8 @@ namespace DPA_Musicsheets
             this.Dispatcher.Invoke(() =>
             {
                 Mementos.Add(Displayer.Text);
+                string[] lines = Displayer.Text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                currentSong = r.Load(lines);
                 FillPSAMViewer();
             });
             GenerationTimer.Stop();
@@ -65,6 +68,8 @@ namespace DPA_Musicsheets
 
         private void lilypondTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            string[] lines = Displayer.Text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            currentSong = r.Load(lines);
             ResetTimer();
         }
 
@@ -80,7 +85,7 @@ namespace DPA_Musicsheets
 
             // Clef = sleutel
             // had perfect kunnen zijn voor een interpreter
-            if(currentSong.Pitch.Contains("treble"))
+            if (currentSong.Pitch.Contains("treble"))
                 staff.AddMusicalSymbol(new Clef(ClefType.GClef, 2));
             else if(currentSong.Pitch.Contains("alto") || currentSong.Pitch.Contains("tenor"))
                 staff.AddMusicalSymbol(new Clef(ClefType.CClef, 2));
@@ -163,7 +168,8 @@ namespace DPA_Musicsheets
                 {
                     r = new SaversReaders.LilyReader();
                     currentSong = r.Load(txt_MidiFilePath.Text);
-                    Displayer.Text = getTextFromLilypond();
+                    w.SetSong(currentSong);
+                    Displayer.Text = string.Join("\n", w.GetContent());
                 }
                 else if (txt_MidiFilePath.Text.Substring(txt_MidiFilePath.Text.Length - 3, 3) == "mid")
                 {
@@ -217,14 +223,15 @@ namespace DPA_Musicsheets
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            s.SetSong(currentSong);
-            s.Save(txtFilename.Text);
+
+            w.SetSong(currentSong);
+            w.Save(txtFilename.Text);
         }
 
         private string getTextFromLilypond()
         {
-            string[] content = File.ReadAllLines(@"" + txt_MidiFilePath.Text);
-            return string.Join("\n", content);
+            w.SetSong(currentSong);
+            return string.Join("\n", w.GetContent());
         }
     }
 }

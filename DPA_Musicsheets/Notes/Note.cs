@@ -62,7 +62,5 @@ namespace DPA_Musicsheets.Notes
         {
             Octave++;
         }
-
-        //public string HogerLager();
     }
 }

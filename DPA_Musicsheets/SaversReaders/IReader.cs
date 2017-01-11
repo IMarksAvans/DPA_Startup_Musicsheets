@@ -11,5 +11,6 @@ namespace DPA_Musicsheets
         void LoadReserved();
 
         Song Load(string Filename);
+        Song Load(string[] lines);
     }
 }

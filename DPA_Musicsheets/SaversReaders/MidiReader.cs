@@ -163,6 +163,11 @@ namespace DPA_Musicsheets.SaversReaders
             return Note;
         }
 
+        public Song Load(string[] lines)
+        {
+            throw new NotImplementedException();
+        }
+
         public string Filename
         {
             get;

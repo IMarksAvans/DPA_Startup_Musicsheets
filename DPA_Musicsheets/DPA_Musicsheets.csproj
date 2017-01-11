@@ -83,12 +83,11 @@
     <Compile Include="Notes\Note.cs" />
     <Compile Include="Notes\TieNote.cs" />
     <Compile Include="SaversReaders\IReader.cs" />
-    <Compile Include="SaversReaders\ISaver.cs" />
+    <Compile Include="SaversReaders\IWriter.cs" />
     <Compile Include="MidiTrack.cs" />
     <Compile Include="SaversReaders\LilyReader.cs" />
-    <Compile Include="SaversReaders\LilySaver.cs" />
+    <Compile Include="SaversReaders\LilyWriter.cs" />
     <Compile Include="SaversReaders\MidiReader.cs" />
-    <Compile Include="SaversReaders\MidiSaver.cs" />
     <Compile Include="Song.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

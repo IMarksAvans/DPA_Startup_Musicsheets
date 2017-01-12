@@ -14,7 +14,6 @@ namespace DPA_Musicsheets.SaversReaders
     {
         public LilyReader()
         {
-            Tracks = new List<OurTrack>();
             //_tracks = new List<OurTrack>();
             Filename = "";
         }
@@ -22,6 +21,7 @@ namespace DPA_Musicsheets.SaversReaders
         public Song Load(string[] lines)
         {
             Song s = new Song();
+            List<OurTrack> Tracks = new List<OurTrack>();
 
             List<Interpreter.Expression> Expressions = new List<Interpreter.Expression>();
             Interpreter.Expression exp;

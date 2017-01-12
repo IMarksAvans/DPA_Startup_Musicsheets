@@ -43,33 +43,35 @@ namespace DPA_Musicsheets
 
         public MainWindow()
         {
-            GenerationTimer = new Timer() { Interval = 1500 };
+            InitializeComponent();
+            GenerationTimer = new Timer();
+            GenerationTimer.Interval = 1500;
+            GenerationTimer.AutoReset = false;
             GenerationTimer.Elapsed += GenerationTimer_Elapsed;
 
-            InitializeComponent();
-
             this.MidiTracks = new ObservableCollection<MidiTrack>();
-            InitializeComponent();
             DataContext = MidiTracks;
             w = new SaversReaders.LilyWriter();
         }
 
         private void GenerationTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            GenerationTimer.Stop();
             this.Dispatcher.Invoke(() =>
             {
+                
                 Mementos.Add(Displayer.Text);
                 string[] lines = Displayer.Text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                currentSong = null;
                 currentSong = r.Load(lines);
                 FillPSAMViewer();
             });
-            GenerationTimer.Stop();
         }
 
         private void lilypondTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string[] lines = Displayer.Text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
-            currentSong = r.Load(lines);
+            //string[] lines = Displayer.Text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            //currentSong = r.Load(lines);
             ResetTimer();
         }
 

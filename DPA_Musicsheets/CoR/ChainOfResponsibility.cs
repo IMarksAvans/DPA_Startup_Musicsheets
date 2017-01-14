@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DPA_Musicsheets.Command;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Windows.Input;
 
 namespace DPA_Musicsheets.CoR
 {
-    public class ChainOfResponsibility
+    public class ChainOfResponsibility : Invoker
     {
         protected ChainOfResponsibility successor;
 

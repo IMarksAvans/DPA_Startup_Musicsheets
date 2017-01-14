@@ -6,7 +6,18 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Command
 {
-    class Invoker
+    public class Invoker
     {
+        protected Command command;
+
+        public void SetCommand(Command command)
+        {
+            this.command = command;
+        }
+
+        public void ExecuteCommand()
+        {
+            this.command.Execute();
+        }
     }
 }

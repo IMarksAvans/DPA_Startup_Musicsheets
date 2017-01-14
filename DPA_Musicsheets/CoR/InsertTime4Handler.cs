@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace DPA_Musicsheets.CoR
 {
-    class InsterTime4Handler : ChainOfResponsibility
+    class InsertTime4Handler : ChainOfResponsibility
     {
         public override void Execute(string data)
         {

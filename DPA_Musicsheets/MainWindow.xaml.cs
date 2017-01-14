@@ -1,4 +1,5 @@
-﻿using DPA_Musicsheets.CoR;
+﻿using DPA_Musicsheets.Command.SubCommands;
+using DPA_Musicsheets.CoR;
 using Microsoft.Win32;
 using PSAMControlLibrary;
 using PSAMWPFControlLibrary;
@@ -65,7 +66,7 @@ namespace DPA_Musicsheets
             cor.SetSuccessor(handler1);
             var handler2 = new InsertTime3Handler();
             handler1.SetSuccessor(handler2);
-            var handler3 = new InsterTime4Handler();
+            var handler3 = new InsertTime4Handler();
             handler2.SetSuccessor(handler3);
             var handler4 = new InsertTimeHandler();
             handler3.SetSuccessor(handler4);
@@ -79,6 +80,16 @@ namespace DPA_Musicsheets
             handler7.SetSuccessor(handler8);
             var handler9 = new SaveHandler();
             handler8.SetSuccessor(handler9);
+
+            handler1.SetCommand(new InsertTime6Command(this));
+            handler2.SetCommand(new InsertTime3Command(this));
+            handler3.SetCommand(new InsertTime4Command(this));
+            handler4.SetCommand(new InsertTime4Command(this));
+            handler5.SetCommand(new InsertTempoCommand(this));
+            handler6.SetCommand(new ClefCommand(this));
+            handler7.SetCommand(new OpenCommand(this));
+            handler8.SetCommand(new PdfCommand(this));
+            handler9.SetCommand(new SaveCommand(this));
         }
 
         private void GenerationTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -111,7 +122,8 @@ namespace DPA_Musicsheets
         private void FillPSAMViewer()
         {
             staff.ClearMusicalIncipit();
-
+            if (currentSong == null)
+                return;
             // Clef = sleutel
             // had perfect kunnen zijn voor een interpreter
             if (currentSong.Pitch.Contains("treble"))
@@ -189,25 +201,7 @@ namespace DPA_Musicsheets
 
         private void btnOpen_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "Midi Files (.mid)|*.mid|Lilypond Files (.ly)|*.ly" };
-            if (openFileDialog.ShowDialog() == true)
-            {
-                txt_MidiFilePath.Text = openFileDialog.FileName;
-                if (txt_MidiFilePath.Text.Substring(txt_MidiFilePath.Text.Length - 2, 2) == "ly")
-                {
-                    r = new SaversReaders.LilyReader();
-                    currentSong = r.Load(txt_MidiFilePath.Text);
-                    w.SetSong(currentSong);
-                    Displayer.Text = string.Join("\n", w.GetContent());
-                }
-                else if (txt_MidiFilePath.Text.Substring(txt_MidiFilePath.Text.Length - 3, 3) == "mid")
-                {
-                    r = new SaversReaders.MidiReader();
-                    currentSong = r.Load(txt_MidiFilePath.Text);
-                }
-            }
-
-            FillPSAMViewer();
+            Open();
         }
         
         private void btn_Stop_Click(object sender, RoutedEventArgs e)
@@ -254,9 +248,8 @@ namespace DPA_Musicsheets
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-
-            w.SetSong(currentSong);
-            w.Save(txtFilename.Text);
+            Save();
+            
         }
 
         private string getTextFromLilypond()
@@ -285,6 +278,66 @@ namespace DPA_Musicsheets
         private void Displayer_KeyUp(object sender, KeyEventArgs e)
         {
             keyDownList.Remove(e.Key);
+        }
+
+        // receiver commands
+        public void Open()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "Midi Files (.mid)|*.mid|Lilypond Files (.ly)|*.ly" };
+            if (openFileDialog.ShowDialog() == true)
+            {
+                txt_MidiFilePath.Text = openFileDialog.FileName;
+                if (txt_MidiFilePath.Text.Substring(txt_MidiFilePath.Text.Length - 2, 2) == "ly")
+                {
+                    r = new SaversReaders.LilyReader();
+                    currentSong = r.Load(txt_MidiFilePath.Text);
+                    w.SetSong(currentSong);
+                    Displayer.Text = string.Join("\n", w.GetContent());
+                }
+                else if (txt_MidiFilePath.Text.Substring(txt_MidiFilePath.Text.Length - 3, 3) == "mid")
+                {
+                    r = new SaversReaders.MidiReader();
+                    currentSong = r.Load(txt_MidiFilePath.Text);
+                }
+            }
+
+            FillPSAMViewer();
+        }
+
+        public void Save()
+        {
+            w.SetSong(currentSong);
+            w.Save(txtFilename.Text + ".ly");
+        }
+
+        internal void SaveToPdf()
+        {
+            
+        }
+
+        internal void InsertTime3()
+        {
+            
+        }
+
+        internal void InsertTime4()
+        {
+            
+        }
+
+        internal void InsertTime6()
+        {
+            
+        }
+
+        internal void InsertTempo()
+        {
+            
+        }
+
+        internal void InsertClef()
+        {
+            
         }
     }
 }

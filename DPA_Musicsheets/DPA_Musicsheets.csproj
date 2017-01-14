@@ -72,15 +72,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Command\ICommand.cs" />
+    <Compile Include="Command\Command.cs" />
     <Compile Include="Command\Invoker.cs" />
+    <Compile Include="Command\SubCommands\ClefCommand.cs" />
+    <Compile Include="Command\SubCommands\InsertTempoCommand.cs" />
+    <Compile Include="Command\SubCommands\InsertTime3Command.cs" />
+    <Compile Include="Command\SubCommands\InsertTime4Command.cs" />
+    <Compile Include="Command\SubCommands\InsertTime6Command.cs" />
+    <Compile Include="Command\SubCommands\OpenCommand.cs" />
+    <Compile Include="Command\SubCommands\PdfCommand.cs" />
+    <Compile Include="Command\SubCommands\SaveCommand.cs" />
     <Compile Include="CoR\ChainOfResponsibility.cs" />
     <Compile Include="CoR\ClefHandler.cs" />
     <Compile Include="CoR\InsertTempoHandler.cs" />
     <Compile Include="CoR\InsertTime3Handler.cs" />
     <Compile Include="CoR\InsertTime6Handler.cs" />
     <Compile Include="CoR\InsertTimeHandler.cs" />
-    <Compile Include="CoR\InsterTime4Handler.cs" />
+    <Compile Include="CoR\InsertTime4Handler.cs" />
     <Compile Include="CoR\OpenHandler.cs" />
     <Compile Include="CoR\PdfHandler.cs" />
     <Compile Include="CoR\SaveHandler.cs" />

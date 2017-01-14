@@ -18,7 +18,7 @@ namespace DPA_Musicsheets.CoR
         {
             if ((keyDownList.Contains(Key.LeftAlt) || keyDownList.Contains(Key.RightAlt)) && keyDownList.Contains(Key.T) && keyDownList.Contains(Key.NumPad3))
             {
-
+                this.ExecuteCommand();
             }
             else
                 base.Execute(keyDownList);

@@ -43,7 +43,7 @@
         -->
         <TextBox Name="Displayer" TextWrapping="Wrap" AcceptsReturn="True" Margin="10,81,283.5,10.5" KeyUp="Displayer_KeyUp" KeyDown="Displayer_KeyDown"  TextChanged="lilypondTextBox_TextChanged"/>
         <Button x:Name="btnSave" Content="Save to lilypond" HorizontalAlignment="Left" Margin="568,11,0,0" VerticalAlignment="Top" Width="120" Click="btnSave_Click"/>
-        <TextBox x:Name="txtFilename" HorizontalAlignment="Left" Height="23" Margin="568,45,0,0" TextWrapping="Wrap" Text="Lilyfile.ly" VerticalAlignment="Top" Width="216"/>
+        <TextBox x:Name="txtFilename" HorizontalAlignment="Left" Height="23" Margin="568,45,0,0" TextWrapping="Wrap" Text="Lilyfile" VerticalAlignment="Top" Width="216"/>
 
         <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,91,29,10.5" Width="406" HorizontalAlignment="Right" Background="#FFFCDF" Grid.ColumnSpan="2">
             <Grid Name="sheetGrid" Margin="0,0,0,0" >

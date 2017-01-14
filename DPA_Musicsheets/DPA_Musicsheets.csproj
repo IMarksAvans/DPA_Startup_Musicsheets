@@ -72,10 +72,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Command\Command.cs" />
+    <Compile Include="Command\ICommand.cs" />
     <Compile Include="Command\Invoker.cs" />
-    <Compile Include="Command\Receiver.cs" />
-    <Compile Include="CoR\KeyCommand.cs" />
+    <Compile Include="CoR\ChainOfResponsibility.cs" />
+    <Compile Include="CoR\ClefHandler.cs" />
+    <Compile Include="CoR\InsertTempoHandler.cs" />
+    <Compile Include="CoR\InsertTime3Handler.cs" />
+    <Compile Include="CoR\InsertTime6Handler.cs" />
+    <Compile Include="CoR\InsertTimeHandler.cs" />
+    <Compile Include="CoR\InsterTime4Handler.cs" />
+    <Compile Include="CoR\OpenHandler.cs" />
+    <Compile Include="CoR\PdfHandler.cs" />
+    <Compile Include="CoR\SaveHandler.cs" />
     <Compile Include="Interpreter\Expression.cs" />
     <Compile Include="Interpreter\OrExpression.cs" />
     <Compile Include="Interpreter\TerminalExpression.cs" />

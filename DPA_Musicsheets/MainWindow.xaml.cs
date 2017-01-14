@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using DPA_Musicsheets.CoR;
+using Microsoft.Win32;
 using PSAMControlLibrary;
 using PSAMWPFControlLibrary;
 using Sanford.Multimedia.Midi;
@@ -40,6 +41,8 @@ namespace DPA_Musicsheets
         private IReader r;
         private IWriter w;
         private Song currentSong;
+        protected List<System.Windows.Input.Key> keyDownList = new List<System.Windows.Input.Key>();
+        protected ChainOfResponsibility cor = new ChainOfResponsibility();
 
         public MainWindow()
         {
@@ -52,6 +55,30 @@ namespace DPA_Musicsheets
             this.MidiTracks = new ObservableCollection<MidiTrack>();
             DataContext = MidiTracks;
             w = new SaversReaders.LilyWriter();
+
+            InitChainOfResponsibility();
+        }
+
+        private void InitChainOfResponsibility()
+        {
+            var handler1 = new InsertTime6Handler();
+            cor.SetSuccessor(handler1);
+            var handler2 = new InsertTime3Handler();
+            handler1.SetSuccessor(handler2);
+            var handler3 = new InsterTime4Handler();
+            handler2.SetSuccessor(handler3);
+            var handler4 = new InsertTimeHandler();
+            handler3.SetSuccessor(handler4);
+            var handler5 = new InsertTempoHandler();
+            handler4.SetSuccessor(handler5);
+            var handler6 = new ClefHandler();
+            handler5.SetSuccessor(handler6);
+            var handler7 = new OpenHandler();
+            handler6.SetSuccessor(handler7);
+            var handler8 = new PdfHandler();
+            handler7.SetSuccessor(handler8);
+            var handler9 = new SaveHandler();
+            handler8.SetSuccessor(handler9);
         }
 
         private void GenerationTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -130,7 +157,7 @@ namespace DPA_Musicsheets
                         viewer.AddMusicalSymbol(s2);
                         viewer.AddMusicalSymbol(e); 
             */
-            staff.AddMusicalSymbol(new Note("A", 0, 4, MusicalSymbolDuration.Sixteenth, NoteStemDirection.Down, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Start, NoteBeamType.Start }));
+           /* staff.AddMusicalSymbol(new Note("A", 0, 4, MusicalSymbolDuration.Sixteenth, NoteStemDirection.Down, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Start, NoteBeamType.Start }));
             staff.AddMusicalSymbol(new Note("C", 1, 5, MusicalSymbolDuration.Sixteenth, NoteStemDirection.Down, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Continue, NoteBeamType.End }));
             staff.AddMusicalSymbol(new Note("D", 0, 5, MusicalSymbolDuration.Eighth, NoteStemDirection.Down, NoteTieType.Start, new List<NoteBeamType>() { NoteBeamType.End }));
             staff.AddMusicalSymbol(new Barline());
@@ -146,7 +173,7 @@ namespace DPA_Musicsheets
             staff.AddMusicalSymbol(
                 new Note("G", 0, 4, MusicalSymbolDuration.Half, NoteStemDirection.Up, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Single })
                 { IsChordElement = true });
-            staff.AddMusicalSymbol(new Barline());
+            staff.AddMusicalSymbol(new Barline());*/
         }
 
         private void btnPlay_Click(object sender, RoutedEventArgs e)
@@ -201,6 +228,8 @@ namespace DPA_Musicsheets
             {
                 ShowMidiTracks(MidiReader.ReadMidi(txt_MidiFilePath.Text));
             }
+
+            RoutedCommand newcmd = new RoutedCommand();
         }
 
         private void ShowMidiTracks(IEnumerable<MidiTrack> midiTracks)
@@ -234,6 +263,28 @@ namespace DPA_Musicsheets
         {
             w.SetSong(currentSong);
             return string.Join("\n", w.GetContent());
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            keyDownList.Add(e.Key);
+            cor.Execute(keyDownList);
+        }
+
+        private void Displayer_KeyDown(object sender, KeyEventArgs e)
+        {
+            keyDownList.Add(e.Key);
+            cor.Execute(keyDownList);
+        }
+
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            keyDownList.Remove(e.Key);
+        }
+
+        private void Displayer_KeyUp(object sender, KeyEventArgs e)
+        {
+            keyDownList.Remove(e.Key);
         }
     }
 }

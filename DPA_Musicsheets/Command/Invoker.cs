@@ -8,12 +8,5 @@ namespace DPA_Musicsheets.Command
 {
     class Invoker
     {
-        protected Command command;
-
-
-        public void Execute()
-        {
-            command.Execute();
-        }
     }
 }

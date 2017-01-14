@@ -6,13 +6,8 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Command
 {
-    class Command
+    public interface ICommand
     {
-        protected Receiver receiver;
-
-        internal void Execute()
-        {
-            
-        }
+        void Execute();
     }
 }

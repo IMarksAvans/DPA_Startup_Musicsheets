@@ -1,6 +1,5 @@
 \relative c'
 \clef treble
-\time 4/4
 \tempo 4=120
 g'4 g4 a4 a4 
 d8. e16 d8 c8 b4 d4 

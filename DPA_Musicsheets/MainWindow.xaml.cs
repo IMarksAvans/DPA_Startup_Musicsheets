@@ -249,7 +249,6 @@ namespace DPA_Musicsheets
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             Save();
-            
         }
 
         private string getTextFromLilypond()
@@ -260,24 +259,30 @@ namespace DPA_Musicsheets
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            keyDownList.Add(e.Key);
+            if (!keyDownList.Contains(e.Key))
+                keyDownList.Add(e.Key);
             cor.Execute(keyDownList);
         }
 
         private void Displayer_KeyDown(object sender, KeyEventArgs e)
         {
-            keyDownList.Add(e.Key);
-            cor.Execute(keyDownList);
+            /*
+            if(!keyDownList.Contains(e.Key))
+                keyDownList.Add(e.Key);
+            cor.Execute(keyDownList);*/
         }
 
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
-            keyDownList.Remove(e.Key);
+            if (keyDownList.Contains(e.Key))
+                keyDownList.Remove(e.Key);
         }
 
         private void Displayer_KeyUp(object sender, KeyEventArgs e)
         {
-            keyDownList.Remove(e.Key);
+            /*
+            if (keyDownList.Contains(e.Key))
+                keyDownList.Remove(e.Key);*/
         }
 
         // receiver commands
@@ -312,45 +317,68 @@ namespace DPA_Musicsheets
 
         internal void SaveToPdf()
         {
-            
+            string lilypondLocation = @"C:\Program Files (x86)\LilyPond\usr\bin\lilypond.exe";
+            string sourceFolder = Directory.GetCurrentDirectory() + "\\";
+            string sourceFileName = txtFilename.Text + ".ly";//"Twee-emmertjes-water-halen";
+            string targetFolder = Directory.GetCurrentDirectory() + "\\";
+            string targetFileName = txtFilename.Text;
+
+            var process = new Process
+            {
+                StartInfo =
+                {
+                    WorkingDirectory = sourceFolder,
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    Arguments = String.Format("--pdf \"{0}{1}\"", sourceFolder, sourceFileName),
+                    FileName = lilypondLocation
+                }
+            };
+
+            process.Start();
+            while (!process.HasExited) {  }
+
+            //File.Copy(sourceFolder + sourceFileName + ".pdf", targetFolder + targetFileName + ".pdf", true);
         }
 
         internal void InsertTime3()
         {
-            
+            var insertText = "\\time 3/4";
+            var selectionIndex = Displayer.SelectionStart;
+            Displayer.Text = Displayer.Text.Insert(selectionIndex, insertText);
+            Displayer.SelectionStart = selectionIndex + insertText.Length;
+            //var currentSelection = Displayer.;
         }
 
         internal void InsertTime4()
         {
-            
+            var insertText = "\\time 4/4";
+            var selectionIndex = Displayer.SelectionStart;
+            Displayer.Text = Displayer.Text.Insert(selectionIndex, insertText);
+            Displayer.SelectionStart = selectionIndex + insertText.Length;
         }
 
         internal void InsertTime6()
         {
-            
+            var insertText = "\\time 6/8";
+            var selectionIndex = Displayer.SelectionStart;
+            Displayer.Text = Displayer.Text.Insert(selectionIndex, insertText);
+            Displayer.SelectionStart = selectionIndex + insertText.Length;
         }
 
         internal void InsertTempo()
         {
-            
+            var insertText = "\\tempo 4=120";
+            var selectionIndex = Displayer.SelectionStart;
+            Displayer.Text = Displayer.Text.Insert(selectionIndex, insertText);
+            Displayer.SelectionStart = selectionIndex + insertText.Length;
         }
 
         internal void InsertClef()
         {
-            
+            var insertText = "\\clef treble";
+            var selectionIndex = Displayer.SelectionStart;
+            Displayer.Text = Displayer.Text.Insert(selectionIndex, insertText);
+            Displayer.SelectionStart = selectionIndex + insertText.Length;
         }
     }
 }
-
-
-
-/*r.Load("Alle-eendjes-zwemmen-in-het-water.mid");
-IReader LilyReader = new SaversReaders.LilyReader();
-ISaver lilysaver = new SaversReaders.LilySaver();
-lilysaver.SetFilename();
-lilysaver.SetSong(LilyReader.Load("Alle-eendjes-zwemmen-in-het-water.ly"));
-lilysaver.Save("test1.ly");
-lilysaver.SetSong(LilyReader.Load("Twee-emmertjes-water-halen.ly"));
-lilysaver.Save("test2.ly");
-notenbalk.LoadFromXmlFile("Resources/example.xml");
-*/

@@ -6,17 +6,21 @@
         xmlns:PSAMWPFControl="clr-namespace:PSAMWPFControlLibrary;assembly=PSAMWPFControlLibrary"
         xmlns:local="clr-namespace:DPA_Musicsheets"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="1008" KeyUp="Window_KeyUp" KeyDown="Window_KeyDown"  Closing="Window_Closing">
-    <Grid x:Name="MainGrid" Margin="0,0,0,-17.5">
+        Title="MainWindow" Height="500" Width="1380" KeyUp="Window_KeyUp" KeyDown="Window_KeyDown"  Closing="Window_Closing">
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="368*"/>
+            <RowDefinition Height="105*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="408*"/>
             <ColumnDefinition Width="109*"/>
         </Grid.ColumnDefinitions>
         <TextBox x:Name="txt_MidiFilePath" HorizontalAlignment="Left" Height="23" Margin="90,10,0,0" TextWrapping="Wrap" Text="../../../smb1-Theme.mid" VerticalAlignment="Top" Width="233"/>
-        <Button x:Name="btnPlay" Content="Play" HorizontalAlignment="Left" Margin="353,11,0,0" VerticalAlignment="Top" Width="75" Click="btnPlay_Click" Grid.ColumnSpan="2"/>
+        <Button x:Name="btnPlay" Content="Play" HorizontalAlignment="Left" Margin="353,11,0,0" VerticalAlignment="Top" Width="75" Click="btnPlay_Click"/>
         <Button x:Name="btnOpen" Content="Open" HorizontalAlignment="Left" Margin="10,11,0,0" VerticalAlignment="Top" Width="75" Click="btnOpen_Click"/>
         <Button x:Name="btn_Stop" Content="Stop" HorizontalAlignment="Left" Margin="433,11,0,0" VerticalAlignment="Top" Width="75" Click="btn_Stop_Click"/>
-        <Button x:Name="btn_ShowContent" Content="Show content" HorizontalAlignment="Left" Margin="353,35,0,0" VerticalAlignment="Top" Width="155" Click="btn_ShowContent_Click" Grid.ColumnSpan="2"/>
+        <Button x:Name="btn_ShowContent" Content="Show content" HorizontalAlignment="Left" Margin="353,35,0,0" VerticalAlignment="Top" Width="155" Click="btn_ShowContent_Click"/>
 
         <!--<TabControl x:Name="tabCtrl_MidiContent" HorizontalAlignment="Left" Height="227" Margin="10,59,0,0" VerticalAlignment="Top" Width="498" ItemsSource="{Binding}" Grid.ColumnSpan="2">
             <TabControl.ItemContainerStyle>
@@ -41,16 +45,16 @@
             </TabControl.ContentTemplate>
         </TabControl>
         -->
-        <TextBox Name="Displayer" TextWrapping="Wrap" AcceptsReturn="True" Margin="10,81,283.5,59" KeyUp="Displayer_KeyUp" KeyDown="Displayer_KeyDown"  TextChanged="lilypondTextBox_TextChanged"/>
+        <TextBox Name="Displayer" TextWrapping="Wrap" AcceptsReturn="True" Margin="10,81,575,31.5" KeyUp="Displayer_KeyUp" KeyDown="Displayer_KeyDown"  TextChanged="lilypondTextBox_TextChanged" Grid.RowSpan="2"/>
         <Button x:Name="btnSave" Content="Save to lilypond" HorizontalAlignment="Left" Margin="568,11,0,0" VerticalAlignment="Top" Width="120" Click="btnSave_Click"/>
         <TextBox x:Name="txtFilename" HorizontalAlignment="Left" Height="23" Margin="568,45,0,0" TextWrapping="Wrap" Text="Lilyfile" VerticalAlignment="Top" Width="216"/>
 
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,91,29,10.5" Width="406" HorizontalAlignment="Right" Background="#FFFCDF" Grid.ColumnSpan="2">
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,81,92,10.5" Width="712" HorizontalAlignment="Right" Background="#FFFCDF" Grid.ColumnSpan="2" Grid.RowSpan="2">
             <Grid Name="sheetGrid" Margin="0,0,0,0" >
-                <PSAMWPFControl:IncipitViewerWPF Margin="0,0,0,110" x:Name="staff" >
+                <PSAMWPFControl:IncipitViewerWPF Width="600" Margin="10,10,10,98" x:Name="staff" >
                 </PSAMWPFControl:IncipitViewerWPF>
             </Grid>
         </ScrollViewer>
-        <Button x:Name="btnUndo" Content="Undo" HorizontalAlignment="Left" Margin="433,446,0,0" VerticalAlignment="Top" Width="75" Click="btnUndo_Click"/>
+        <Button x:Name="btnUndo" Content="Undo" HorizontalAlignment="Left" Margin="433,78,0,0" VerticalAlignment="Top" Width="75" Click="btnUndo_Click" Grid.Row="1"/>
     </Grid>
 </Window>

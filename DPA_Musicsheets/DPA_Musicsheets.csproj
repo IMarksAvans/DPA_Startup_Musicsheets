@@ -96,6 +96,9 @@
     <Compile Include="Interpreter\OrExpression.cs" />
     <Compile Include="Interpreter\TerminalExpression.cs" />
     <Compile Include="LilyReader.cs" />
+    <Compile Include="Memento\CareTaker.cs" />
+    <Compile Include="Memento\Memento.cs" />
+    <Compile Include="Memento\Originator.cs" />
     <Compile Include="Notes\Note.cs" />
     <Compile Include="Notes\TieNote.cs" />
     <Compile Include="SaversReaders\IReader.cs" />

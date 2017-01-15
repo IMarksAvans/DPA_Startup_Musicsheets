@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -108,6 +109,16 @@ namespace DPA_Musicsheets
 
         private void lilypondTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            StringBuilder sb = new StringBuilder();
+            foreach (char c in Displayer.Text)
+            {
+                if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '.' || c == '_' || c == ',' || c == '\'' || c == '\\' || c=='/')
+                {
+                    sb.Append(c);
+                }
+            }
+
+            Displayer.Text = sb.ToString();
             //string[] lines = Displayer.Text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
             //currentSong = r.Load(lines);
             ResetTimer();

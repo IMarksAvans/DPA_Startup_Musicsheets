@@ -264,6 +264,11 @@ namespace DPA_Musicsheets
             {
                 _player.Dispose();
             }
+
+            if (MessageBox.Show("Would you like to save before closing the application?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                Save();
+            }
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)

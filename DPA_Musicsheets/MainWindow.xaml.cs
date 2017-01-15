@@ -1,5 +1,6 @@
 ﻿using DPA_Musicsheets.Command.SubCommands;
 using DPA_Musicsheets.CoR;
+using DPA_Musicsheets.Memento;
 using Microsoft.Win32;
 using PSAMControlLibrary;
 using PSAMWPFControlLibrary;
@@ -42,6 +43,8 @@ namespace DPA_Musicsheets
         private List<String> Mementos = new List<String>();
         private IReader r;
         private IWriter w;
+        private Originator o;
+        private Caretaker c;
         private Song currentSong;
         protected List<System.Windows.Input.Key> keyDownList = new List<System.Windows.Input.Key>();
         protected ChainOfResponsibility cor = new ChainOfResponsibility();
@@ -57,6 +60,9 @@ namespace DPA_Musicsheets
             this.MidiTracks = new ObservableCollection<MidiTrack>();
             DataContext = MidiTracks;
             w = new SaversReaders.LilyWriter();
+
+            o = new Originator();
+            c = new Caretaker();
 
             InitChainOfResponsibility();
         }
@@ -98,10 +104,10 @@ namespace DPA_Musicsheets
             GenerationTimer.Stop();
             this.Dispatcher.Invoke(() =>
             {
-                
-                Mementos.Add(Displayer.Text);
+                o.State = Displayer.Text;
+                c.Memento = o.CreateMemento();
                 string[] lines = Displayer.Text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
-                currentSong = null;
+                r = new SaversReaders.LilyReader();
                 currentSong = r.Load(lines);
                 FillPSAMViewer();
             });

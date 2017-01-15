@@ -154,7 +154,8 @@ namespace DPA_Musicsheets
                     staff.AddMusicalSymbol(new Clef(ClefType.CClef, 0));
                 else if (track.Pitch.Contains("bass"))
                     staff.AddMusicalSymbol(new Clef(ClefType.FClef, 0));
-               
+
+                Note prevNote = null;
                 //staff.AddMusicalSymbol();
                 foreach (var note in track.Notes)
                 {
@@ -170,16 +171,31 @@ namespace DPA_Musicsheets
                         var octave = note.Octave;
                         var duration = (MusicalSymbolDuration)note.Duration;
                         var direction = (int)note.Duration >= 5 ? NoteStemDirection.Down : NoteStemDirection.Up;
-
+                        var beam = new List<NoteBeamType>();
                         var tie = NoteTieType.None;
-                        var beam = new List<NoteBeamType>() { NoteBeamType.Start };
+                        if (note.Duration > 4)
+                        {
+                            if (prevNote != null && prevNote.BeamList.Contains(NoteBeamType.Start))
+                            {
+                                beam.Add(NoteBeamType.End);
+                            }
+                            else
+                            {
+                                beam.Add(NoteBeamType.Start);
+
+                            }
+                        }
+                        else
+                         beam.Add(NoteBeamType.Start);
 
                         var dots = note.Punt ? 1 : 0;
                         var n = new Note(key, alternation, octave, duration, direction, tie, beam); //{ NumberOfDots = dots }
                         n.CurrentTempo = track.Tempo;
                         n.NumberOfDots = dots;
                         staff.AddMusicalSymbol(n);
+                        prevNote = n;
                     }
+                    
                 }
                 staff.AddMusicalSymbol(new Barline());
             }

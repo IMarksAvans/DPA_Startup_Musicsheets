@@ -271,6 +271,12 @@ namespace DPA_Musicsheets
             }
         }
 
+        private void btnUndo_Click(object sender, RoutedEventArgs e)
+        {
+            o.SetMemento(c.Memento);
+            Displayer.Text = o.State;
+        }
+
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             Save();

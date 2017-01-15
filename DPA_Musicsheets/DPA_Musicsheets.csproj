@@ -99,8 +99,12 @@
     <Compile Include="Memento\CareTaker.cs" />
     <Compile Include="Memento\Memento.cs" />
     <Compile Include="Memento\Originator.cs" />
+    <Compile Include="Notes\ClefNote.cs" />
     <Compile Include="Notes\Note.cs" />
+    <Compile Include="Notes\PitchNote.cs" />
+    <Compile Include="Notes\TempoNote.cs" />
     <Compile Include="Notes\TieNote.cs" />
+    <Compile Include="Notes\TimeNote.cs" />
     <Compile Include="SaversReaders\IReader.cs" />
     <Compile Include="SaversReaders\IWriter.cs" />
     <Compile Include="MidiTrack.cs" />

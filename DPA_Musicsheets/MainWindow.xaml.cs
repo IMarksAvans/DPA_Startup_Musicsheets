@@ -43,9 +43,8 @@ namespace DPA_Musicsheets
         private List<String> Mementos = new List<String>();
         private IReader r;
         private IWriter w;
-        private Originator oo, no;
-        private Caretaker oc, nc;
-        private Caretaker oldCaretaker;
+        private Originator oo, no, so;
+        private Caretaker oc, nc, sc;
         private Song currentSong;
         protected List<System.Windows.Input.Key> keyDownList = new List<System.Windows.Input.Key>();
         protected ChainOfResponsibility cor = new ChainOfResponsibility();
@@ -63,10 +62,12 @@ namespace DPA_Musicsheets
             w = new SaversReaders.LilyWriter();
 
             oo = new Originator();
-            oc = new Caretaker();
-
             no = new Originator();
+            so = new Originator();
+
+            oc = new Caretaker();
             nc = new Caretaker();
+            sc = new Caretaker();
 
             InitChainOfResponsibility();
         }
@@ -296,9 +297,11 @@ namespace DPA_Musicsheets
                 _player.Dispose();
             }
 
-            if (MessageBox.Show("Would you like to save before closing the application?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-            {
-                Save();
+            if (sc.Memento.State == oc.Memento.State) {
+                if (MessageBox.Show("Would you like to save before closing the application?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    Save();
+                }
             }
         }
 
@@ -369,6 +372,13 @@ namespace DPA_Musicsheets
                     w.SetSong(currentSong);
                     Displayer.Text = string.Join("\n", w.GetContent());
                 }
+
+                if (Displayer.Text != null)
+                {
+                    so.State = Displayer.Text;
+                    sc.Memento = so.CreateMemento();
+                }
+                
             }
 
             FillPSAMViewer();
@@ -378,6 +388,9 @@ namespace DPA_Musicsheets
         {
             w.SetSong(currentSong);
             w.Save(txtFilename.Text + ".ly");
+
+            so.State = Displayer.Text;
+            sc.Memento = so.CreateMemento();
         }
 
         internal void SaveToPdf()

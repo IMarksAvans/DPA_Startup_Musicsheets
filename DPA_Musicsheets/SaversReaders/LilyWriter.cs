@@ -48,15 +48,14 @@ namespace DPA_Musicsheets.SaversReaders
 
                     string time = t.Time.ToString();
 
-                    var times = time.Split(',');
+                    //var times = time.Split(',');
 
                     //int time = (int)this.s.Time;
                     //string d = this.s.Time.ToString();
                     //d = d.Replace(time + ".", "");
-                    if (times.Count() >= 2)
-                    {
-                        Lines.Add("\\time " + times[0].ToString() + "/" + times[1]);
-                    }
+                    
+                    Lines.Add("\\time " + time[0].ToString() + "/" + time[1]);
+                   
 
                 }
                 if (t.Metronome != 0 && t.Tempo != 0)
@@ -81,7 +80,6 @@ namespace DPA_Musicsheets.SaversReaders
                 string line = "";
                 foreach (Notes.Note n in t.Notes)
                 {
-
 
                     line += TextFromNote(n);
                     line += " ";

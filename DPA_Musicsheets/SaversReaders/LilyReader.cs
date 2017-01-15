@@ -178,14 +178,14 @@ namespace DPA_Musicsheets.SaversReaders
         {
             List<Note> noteList = new List<Note>(1000);
 
-            for(int i = 0; i < line.Length; i++)
+            for (int i = 0; i < line.Length; i++)
             {
                 Char c = line[i];
                 if (char.IsLetter(c))
                 {
                     Note n = Note.create(c.ToString());
                     i++;
-                    while(i < line.Length && (!char.IsWhiteSpace(line[i])))
+                    while (i < line.Length && (!char.IsWhiteSpace(line[i])))
                     {
                         c = line[i];
                         if (Char.IsNumber(c))
@@ -207,14 +207,20 @@ namespace DPA_Musicsheets.SaversReaders
                                 i--;
                                 break;
                             }
-                            
+
                         }
 
                         i++;
                     }
                     noteList.Add(n);
                 }
+                else if (c.Equals('~'))
+                {
+                    Note n = Note.create(c.ToString());
+                    noteList.Add(n);
+                }
             }
+
 
             // ~    = door tot in de volgende maat
 

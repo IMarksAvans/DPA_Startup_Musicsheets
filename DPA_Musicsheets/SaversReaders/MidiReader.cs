@@ -157,6 +157,8 @@ namespace DPA_Musicsheets.SaversReaders
                 Note.Duration = 1536/deltaTicks;
                 if (Note.Duration % 2 == 1)
                     Note.Punt = true;
+                if (Note.Duration == 5 && Note.Punt)
+                    Note.Duration = 8;
                 Note.TicksPosition = absoluteTicks;
                 Note.NotePos = data1;
             }

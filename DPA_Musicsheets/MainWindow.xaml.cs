@@ -118,7 +118,7 @@ namespace DPA_Musicsheets
             StringBuilder sb = new StringBuilder();
             foreach (char c in Displayer.Text)
             {
-                if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '.' || c == '_' || c == ',' || c == '\'' || c == '\\' || c=='/' || c=='\n' || c==' ' || c=='=' || c=='{' || c=='}')
+                if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '.' || c == '_' || c == ',' || c == '\'' || c == '\\' || c=='/' || c=='\n' || c==' ' || c=='=' || c=='{' || c=='}' || c=='~')
                 {
                     sb.Append(c);
                 }
@@ -322,6 +322,8 @@ namespace DPA_Musicsheets
                 {
                     r = new SaversReaders.MidiReader();
                     currentSong = r.Load(txt_MidiFilePath.Text);
+                    w.SetSong(currentSong);
+                    Displayer.Text = string.Join("\n", w.GetContent());
                 }
             }
 

@@ -16,7 +16,7 @@ namespace DPA_Musicsheets.CoR
 
         public override void Execute(List<Key> keyDownList)
         {
-            if ((keyDownList.Contains(Key.LeftAlt) || keyDownList.Contains(Key.RightAlt)) && keyDownList.Contains(Key.C))
+            if ((keyDownList.Contains(Key.LeftAlt) || keyDownList.Contains(Key.RightAlt) || keyDownList.Contains(Key.System)) && keyDownList.Contains(Key.C))
             {
                 this.ExecuteCommand();
             }

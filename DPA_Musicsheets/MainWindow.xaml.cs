@@ -259,6 +259,7 @@ namespace DPA_Musicsheets
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
+            
             if (!keyDownList.Contains(e.Key))
                 keyDownList.Add(e.Key);
             cor.Execute(keyDownList);
@@ -346,7 +347,7 @@ namespace DPA_Musicsheets
             var selectionIndex = Displayer.SelectionStart;
             Displayer.Text = Displayer.Text.Insert(selectionIndex, insertText);
             Displayer.SelectionStart = selectionIndex + insertText.Length;
-            //var currentSelection = Displayer.;
+            
         }
 
         internal void InsertTime4()
@@ -355,6 +356,7 @@ namespace DPA_Musicsheets
             var selectionIndex = Displayer.SelectionStart;
             Displayer.Text = Displayer.Text.Insert(selectionIndex, insertText);
             Displayer.SelectionStart = selectionIndex + insertText.Length;
+            
         }
 
         internal void InsertTime6()
@@ -363,6 +365,7 @@ namespace DPA_Musicsheets
             var selectionIndex = Displayer.SelectionStart;
             Displayer.Text = Displayer.Text.Insert(selectionIndex, insertText);
             Displayer.SelectionStart = selectionIndex + insertText.Length;
+            
         }
 
         internal void InsertTempo()
@@ -371,6 +374,7 @@ namespace DPA_Musicsheets
             var selectionIndex = Displayer.SelectionStart;
             Displayer.Text = Displayer.Text.Insert(selectionIndex, insertText);
             Displayer.SelectionStart = selectionIndex + insertText.Length;
+           
         }
 
         internal void InsertClef()
@@ -379,6 +383,7 @@ namespace DPA_Musicsheets
             var selectionIndex = Displayer.SelectionStart;
             Displayer.Text = Displayer.Text.Insert(selectionIndex, insertText);
             Displayer.SelectionStart = selectionIndex + insertText.Length;
+            
         }
     }
 }

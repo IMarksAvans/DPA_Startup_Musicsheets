@@ -43,8 +43,9 @@ namespace DPA_Musicsheets
         private List<String> Mementos = new List<String>();
         private IReader r;
         private IWriter w;
-        private Originator o;
-        private Caretaker c;
+        private Originator oo, no;
+        private Caretaker oc, nc;
+        private Caretaker oldCaretaker;
         private Song currentSong;
         protected List<System.Windows.Input.Key> keyDownList = new List<System.Windows.Input.Key>();
         protected ChainOfResponsibility cor = new ChainOfResponsibility();
@@ -61,8 +62,11 @@ namespace DPA_Musicsheets
             DataContext = MidiTracks;
             w = new SaversReaders.LilyWriter();
 
-            o = new Originator();
-            c = new Caretaker();
+            oo = new Originator();
+            oc = new Caretaker();
+
+            no = new Originator();
+            nc = new Caretaker();
 
             InitChainOfResponsibility();
         }
@@ -104,8 +108,10 @@ namespace DPA_Musicsheets
             GenerationTimer.Stop();
             this.Dispatcher.Invoke(() =>
             {
-                o.State = Displayer.Text;
-                c.Memento = o.CreateMemento();
+                oo.State = no.State;
+                oc.Memento = oo.CreateMemento();
+                no.State = Displayer.Text;
+                nc.Memento = no.CreateMemento();
                 string[] lines = Displayer.Text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
                 r = new SaversReaders.LilyReader();
                 currentSong = r.Load(lines);
@@ -298,8 +304,8 @@ namespace DPA_Musicsheets
 
         private void btnUndo_Click(object sender, RoutedEventArgs e)
         {
-            o.SetMemento(c.Memento);
-            Displayer.Text = o.State;
+            oo.SetMemento(oc.Memento);
+            Displayer.Text = oo.State;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)

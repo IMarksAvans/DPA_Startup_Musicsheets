@@ -6,7 +6,7 @@
         xmlns:PSAMWPFControl="clr-namespace:PSAMWPFControlLibrary;assembly=PSAMWPFControlLibrary"
         xmlns:local="clr-namespace:DPA_Musicsheets"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="1008" KeyUp="Window_KeyUp" KeyDown="Window_KeyDown"  Closing="Window_Closing">
+        Title="MainWindow" Height="500" Width="1380" KeyUp="Window_KeyUp" KeyDown="Window_KeyDown"  Closing="Window_Closing">
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="408*"/>
@@ -41,13 +41,13 @@
             </TabControl.ContentTemplate>
         </TabControl>
         -->
-        <TextBox Name="Displayer" TextWrapping="Wrap" AcceptsReturn="True" Margin="10,81,283.5,10.5" KeyUp="Displayer_KeyUp" KeyDown="Displayer_KeyDown"  TextChanged="lilypondTextBox_TextChanged"/>
+        <TextBox Name="Displayer" TextWrapping="Wrap" AcceptsReturn="True" Margin="10,81,575,11" KeyUp="Displayer_KeyUp" KeyDown="Displayer_KeyDown"  TextChanged="lilypondTextBox_TextChanged"/>
         <Button x:Name="btnSave" Content="Save to lilypond" HorizontalAlignment="Left" Margin="568,11,0,0" VerticalAlignment="Top" Width="120" Click="btnSave_Click"/>
         <TextBox x:Name="txtFilename" HorizontalAlignment="Left" Height="23" Margin="568,45,0,0" TextWrapping="Wrap" Text="Lilyfile" VerticalAlignment="Top" Width="216"/>
 
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,91,29,10.5" Width="406" HorizontalAlignment="Right" Background="#FFFCDF" Grid.ColumnSpan="2">
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,81,92,11" Width="712" HorizontalAlignment="Right" Background="#FFFCDF" Grid.ColumnSpan="2">
             <Grid Name="sheetGrid" Margin="0,0,0,0" >
-                <PSAMWPFControl:IncipitViewerWPF Margin="0,0,0,110" x:Name="staff" >
+                <PSAMWPFControl:IncipitViewerWPF Width="600" Margin="10,10,10,98" x:Name="staff" >
                 </PSAMWPFControl:IncipitViewerWPF>
             </Grid>
         </ScrollViewer>

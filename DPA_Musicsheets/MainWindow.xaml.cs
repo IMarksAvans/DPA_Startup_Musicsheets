@@ -149,28 +149,37 @@ namespace DPA_Musicsheets
             foreach (var track in currentSong.Tracks)
             {
                 if (track.Pitch.Contains("treble"))
-                    staff.AddMusicalSymbol(new Clef(ClefType.GClef, 2));
+                    staff.AddMusicalSymbol(new Clef(ClefType.GClef, 0));
                 else if (track.Pitch.Contains("alto") || track.Pitch.Contains("tenor"))
-                    staff.AddMusicalSymbol(new Clef(ClefType.CClef, 2));
+                    staff.AddMusicalSymbol(new Clef(ClefType.CClef, 0));
                 else if (track.Pitch.Contains("bass"))
-                    staff.AddMusicalSymbol(new Clef(ClefType.FClef, 2));
-
+                    staff.AddMusicalSymbol(new Clef(ClefType.FClef, 0));
+               
                 //staff.AddMusicalSymbol();
                 foreach (var note in track.Notes)
                 {
                     var key = note.getKey().ToUpper();
-                    var alternation = note.IsSharp ? 1 : (note.IsFlat ? -1 : 0);
-                    var octave = note.Octave;
-                    var duration = (MusicalSymbolDuration)note.Duration;
-                    var direction = (int) note.Octave > 5 ? NoteStemDirection.Down : NoteStemDirection.Up;
-                    var tie = NoteTieType.None;
-                    var beam = new List<NoteBeamType>() { NoteBeamType.Start};
-                    
-                    var dots = note.Punt ? 1 : 0;
-                    var n = new Note(key, alternation, octave, duration, direction, tie, beam); //{ NumberOfDots = dots }
-                    n.CurrentTempo = currentSong.Tempo;
-                    n.NumberOfDots = dots;
-                    staff.AddMusicalSymbol(n);
+                    if (key == "R")
+                    {
+                        var n = new Rest((MusicalSymbolDuration)note.Duration);
+                        staff.AddMusicalSymbol(n);
+                    }
+                    else
+                    {
+                        var alternation = note.IsSharp ? 1 : (note.IsFlat ? -1 : 0);
+                        var octave = note.Octave;
+                        var duration = (MusicalSymbolDuration)note.Duration;
+                        var direction = (int)note.Duration >= 5 ? NoteStemDirection.Down : NoteStemDirection.Up;
+
+                        var tie = NoteTieType.None;
+                        var beam = new List<NoteBeamType>() { NoteBeamType.Start };
+
+                        var dots = note.Punt ? 1 : 0;
+                        var n = new Note(key, alternation, octave, duration, direction, tie, beam); //{ NumberOfDots = dots }
+                        n.CurrentTempo = track.Tempo;
+                        n.NumberOfDots = dots;
+                        staff.AddMusicalSymbol(n);
+                    }
                 }
                 staff.AddMusicalSymbol(new Barline());
             }

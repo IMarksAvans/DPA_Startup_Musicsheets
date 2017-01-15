@@ -154,6 +154,8 @@ namespace DPA_Musicsheets
                     staff.AddMusicalSymbol(new Clef(ClefType.CClef, 2));
                 else if (track.Pitch.Contains("bass"))
                     staff.AddMusicalSymbol(new Clef(ClefType.FClef, 2));
+
+                //staff.AddMusicalSymbol();
                 foreach (var note in track.Notes)
                 {
                     var key = note.getKey().ToUpper();
@@ -163,7 +165,7 @@ namespace DPA_Musicsheets
                     var direction = (int) note.Octave > 5 ? NoteStemDirection.Down : NoteStemDirection.Up;
                     var tie = NoteTieType.None;
                     var beam = new List<NoteBeamType>() { NoteBeamType.Start};
-
+                    
                     var dots = note.Punt ? 1 : 0;
                     var n = new Note(key, alternation, octave, duration, direction, tie, beam); //{ NumberOfDots = dots }
                     n.CurrentTempo = currentSong.Tempo;

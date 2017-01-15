@@ -297,7 +297,7 @@ namespace DPA_Musicsheets
                 _player.Dispose();
             }
 
-            if (sc.Memento.State == oc.Memento.State) {
+            if (sc.Memento.State != Displayer.Text) {
                 if (MessageBox.Show("Would you like to save before closing the application?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     Save();

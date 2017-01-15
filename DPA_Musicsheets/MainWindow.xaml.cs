@@ -40,7 +40,7 @@ namespace DPA_Musicsheets
         // DeviceID 0 is je audio van je PC zelf.
         private Timer GenerationTimer { get; set; }
         private OutputDevice _outputDevice = new OutputDevice(0);
-        private List<String> Mementos = new List<String>();
+        //private List<String> Mementos = new List<String>();
         private IReader r;
         private IWriter w;
         private Originator oo, no;
@@ -109,9 +109,9 @@ namespace DPA_Musicsheets
             this.Dispatcher.Invoke(() =>
             {
                 oo.State = no.State;
-                oc.Memento = oo.CreateMemento();
+                oc.Mementos.Add(oo.CreateMemento());
                 no.State = Displayer.Text;
-                nc.Memento = no.CreateMemento();
+                nc.Mementos.Add(no.CreateMemento());
                 string[] lines = Displayer.Text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
                 r = new SaversReaders.LilyReader();
                 currentSong = r.Load(lines);
@@ -304,7 +304,10 @@ namespace DPA_Musicsheets
 
         private void btnUndo_Click(object sender, RoutedEventArgs e)
         {
-            oo.SetMemento(oc.Memento);
+            if(oc.Mementos.Count > 0)
+                oc.Mementos.RemoveAt(oc.Mementos.Count-1);
+            if (oc.Mementos.Count > 0)
+                oo.SetMemento(oc.Mementos.ElementAt(oc.Mementos.Count - 1));
             Displayer.Text = oo.State;
         }
 

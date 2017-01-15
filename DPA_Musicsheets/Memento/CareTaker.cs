@@ -10,6 +10,17 @@ namespace DPA_Musicsheets.Memento
     {
         private Memento _memento;
 
+        public Caretaker()
+        {
+            this.Mementos = new List<Memento>();
+        }
+
+        public List<Memento> Mementos
+        {
+            get;
+            set;
+        }
+
         // Gets or sets memento
         public Memento Memento
         {

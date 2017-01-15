@@ -143,16 +143,17 @@ namespace DPA_Musicsheets
                 return;
             // Clef = sleutel
             // had perfect kunnen zijn voor een interpreter
-            if (currentSong.Pitch.Contains("treble"))
-                staff.AddMusicalSymbol(new Clef(ClefType.GClef, 2));
-            else if(currentSong.Pitch.Contains("alto") || currentSong.Pitch.Contains("tenor"))
-                staff.AddMusicalSymbol(new Clef(ClefType.CClef, 2));
-            else if (currentSong.Pitch.Contains("bass"))
-                staff.AddMusicalSymbol(new Clef(ClefType.FClef, 2));
+            
             //staff.AddMusicalSymbol(new TimeSignature(TimeSignatureType.Numbers, (uint)currentSong.Tempo, 4));
             //staff.AddMusicalSymbol()
             foreach (var track in currentSong.Tracks)
             {
+                if (track.Pitch.Contains("treble"))
+                    staff.AddMusicalSymbol(new Clef(ClefType.GClef, 2));
+                else if (track.Pitch.Contains("alto") || track.Pitch.Contains("tenor"))
+                    staff.AddMusicalSymbol(new Clef(ClefType.CClef, 2));
+                else if (track.Pitch.Contains("bass"))
+                    staff.AddMusicalSymbol(new Clef(ClefType.FClef, 2));
                 foreach (var note in track.Notes)
                 {
                     var key = note.getKey().ToUpper();

@@ -16,6 +16,12 @@ namespace DPA_Musicsheets
 
         public OurTrack()
         {
+            this.Octave = 5;
+            this.Relative = ' ';
+            this.Metronome = 0;
+            this.Pitch = "";
+            this.Tempo = 0;
+            this.Time = 0;
 
         }
 
@@ -48,6 +54,11 @@ namespace DPA_Musicsheets
             get;
             set;
         }
-
+        public int Octave { get; internal set; }
+        public char Relative { get; internal set; }
+        public string Pitch { get; internal set; }
+        public int Tempo { get; internal set; }
+        public bool InRepeat { get; internal set; }
+        public bool InAlternative { get; internal set; }
     }
 }

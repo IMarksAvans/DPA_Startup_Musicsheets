@@ -42,11 +42,13 @@ namespace DPA_Musicsheets.SaversReaders
             //exp = new Interpreter.TerminalExpression("{");
             //Expressions.Add(exp);
             Interpreter.Expression or = new Interpreter.OrExpression(Expressions);
-
+            OurTrack track = null;// = new OurTrack();
             for (int i = 0; i < lines.Length; i++)
             {
+                if (track == null)
+                    track = new OurTrack();
                 String line = lines[i];
-                OurTrack track = new OurTrack();
+                
                 track.Notes = new List<Note>();
 
                 if (String.IsNullOrEmpty(line))
@@ -54,19 +56,21 @@ namespace DPA_Musicsheets.SaversReaders
 
                 if (or.Interpret(line))
                 {
-                    AddToSong(line, s);
+                    AddToTrack(line,track);
+                    //AddToSong(line, s);
                     continue;
                 }
                 else
                 {
                     track.Notes.AddRange(readNoteLine(line));
-                    track.BPM = s.Tempo;
-                    track.Time = s.Time;
-                    track.Metronome = s.Metronome;
-                    track.IsRepeat = s.InRepeat;
-                    track.IsAlternative = s.InAlternative;
+                    //track.BPM = s.Tempo;
+                    //track.Time = s.Time;
+                    //track.Metronome = s.Metronome;
+                    //track.IsRepeat = s.InRepeat;
+                    //track.IsAlternative = s.InAlternative;
 
                     Tracks.Add(track);
+                    track = null;
                 }
 
             }
@@ -74,6 +78,50 @@ namespace DPA_Musicsheets.SaversReaders
             s.Tracks = Tracks;
 
             return s;
+        }
+
+        private void AddToTrack(string line, OurTrack track)
+        {
+            if (line.Contains("relative"))
+            {
+                int oh = line.Count(x => x == '\'');
+                int ol = line.Count(x => x == ',');
+                track.Octave += (oh - ol);
+                track.Relative = line.Substring(line.IndexOf("relative") + 9, 1)[0];
+            }
+            else if (line.Contains("clef"))
+            {
+                track.Pitch = line.Substring(line.IndexOf("clef") + 5);
+            }
+            else if (line.Contains("time"))
+            {
+                string time = line.Substring(line.IndexOf("time") + 5);
+
+                var times = time.Split('/');
+
+                track.Time = Convert.ToDouble(times[0] + ',' + times[1]);
+                //times[0];
+                //times[1];
+
+            }
+            else if (line.Contains("tempo"))
+            {
+                string M = line.Substring(line.IndexOf("tempo") + 6, 1);
+                track.Metronome = Convert.ToInt32(M);
+
+                string BPM = line.Substring(line.IndexOf("=") + 1);
+                track.Tempo = Convert.ToInt32(BPM);
+            }
+            else if (line.Contains("repeat"))
+            {
+                track.InRepeat = true;
+            }
+            else if (line.Contains("alternative"))
+            {
+                track.InAlternative = true;
+                track.InRepeat = false;
+            }
+
         }
 
         public Song Load(string Filename)

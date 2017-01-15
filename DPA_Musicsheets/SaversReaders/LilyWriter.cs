@@ -24,42 +24,45 @@ namespace DPA_Musicsheets.SaversReaders
                 return null;
             List<OurTrack> tracks = this.s.Tracks;
             List<string> Lines = new List<string>();
-            string l = "";
-            for (int i = this.s.Octave; i < 5; i++)
-            {
-                l += ",";
-            }
-            for (int i = this.s.Octave; i > 5; i--)
-            {
-                l += "'";
-            }
-            if(this.s.Relative.ToString() != " ")
-                Lines.Add("\\relative " + this.s.Relative.ToString() + l);
-            if(this.s.Pitch != "")
-                Lines.Add("\\clef " + this.s.Pitch);
-            if (this.s.Time != 0)
-            {
-
-
-                string time = this.s.Tracks[0].Time.ToString();
-
-                var times = time.Split(',');
-
-                //int time = (int)this.s.Time;
-                //string d = this.s.Time.ToString();
-                //d = d.Replace(time + ".", "");
-                if (times.Count() >= 2)
-                {
-                    Lines.Add("\\time " + times[0].ToString() + "/" + times[1]);
-                }
-                
-            }
-            if (this.s.Metronome != 0 && this.s.Tempo != 0)
-                Lines.Add("\\tempo " + s.Metronome.ToString() + "=" + s.Tempo.ToString());
+           
 
             OurTrack placeholder = null;
             foreach (OurTrack t in tracks)
             {
+                string l = "";
+                for (int i = t.Octave; i < 5; i++)
+                {
+                    l += ",";
+                }
+                for (int i = t.Octave; i > 5; i--)
+                {
+                    l += "'";
+                }
+                if (t.Relative.ToString() != " ")
+                    Lines.Add("\\relative " + t.Relative.ToString() + l);
+                if (t.Pitch != "")
+                    Lines.Add("\\clef " + t.Pitch);
+                if (t.Time != 0)
+                {
+
+
+                    string time = t.Time.ToString();
+
+                    var times = time.Split(',');
+
+                    //int time = (int)this.s.Time;
+                    //string d = this.s.Time.ToString();
+                    //d = d.Replace(time + ".", "");
+                    if (times.Count() >= 2)
+                    {
+                        Lines.Add("\\time " + times[0].ToString() + "/" + times[1]);
+                    }
+
+                }
+                if (t.Metronome != 0 && t.Tempo != 0)
+                    Lines.Add("\\tempo " + t.Metronome.ToString() + "=" + t.Tempo.ToString());
+
+
                 // tijd veranderd
                 if (placeholder != null && placeholder.Time != t.Time)
                 {

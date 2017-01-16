@@ -16,11 +16,21 @@
             <ColumnDefinition Width="408*"/>
             <ColumnDefinition Width="109*"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="txt_MidiFilePath" HorizontalAlignment="Left" Height="23" Margin="90,10,0,0" TextWrapping="Wrap" Text="../../../smb1-Theme.mid" VerticalAlignment="Top" Width="233"/>
-        <Button x:Name="btnPlay" Content="Play" HorizontalAlignment="Left" Margin="353,11,0,0" VerticalAlignment="Top" Width="75" Click="btnPlay_Click"/>
-        <Button x:Name="btnOpen" Content="Open" HorizontalAlignment="Left" Margin="10,11,0,0" VerticalAlignment="Top" Width="75" Click="btnOpen_Click"/>
-        <Button x:Name="btn_Stop" Content="Stop" HorizontalAlignment="Left" Margin="433,11,0,0" VerticalAlignment="Top" Width="75" Click="btn_Stop_Click"/>
-        <Button x:Name="btn_ShowContent" Content="Show content" HorizontalAlignment="Left" Margin="353,35,0,0" VerticalAlignment="Top" Width="155" Click="btn_ShowContent_Click"/>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Open"/>
+                    <MenuItem Header="_Close"/>
+                    <MenuItem Header="_Save"/>
+                </MenuItem>
+            </Menu>
+            <StackPanel></StackPanel>
+        </DockPanel>
+        <TextBox x:Name="txt_MidiFilePath" HorizontalAlignment="Left" Height="23" Margin="90,27,0,0" TextWrapping="Wrap" Text="../../../smb1-Theme.mid" VerticalAlignment="Top" Width="233"/>
+        <Button x:Name="btnPlay" Content="Play" HorizontalAlignment="Left" Margin="353,27,0,0" VerticalAlignment="Top" Width="75" Click="btnPlay_Click"/>
+        <Button x:Name="btnOpen" Content="Open" HorizontalAlignment="Left" Margin="10,27,0,0" VerticalAlignment="Top" Width="75" Click="btnOpen_Click"/>
+        <Button x:Name="btn_Stop" Content="Stop" HorizontalAlignment="Left" Margin="433,27,0,0" VerticalAlignment="Top" Width="75" Click="btn_Stop_Click"/>
+        <Button x:Name="btn_ShowContent" Content="Show content" HorizontalAlignment="Left" Margin="353,53,0,0" VerticalAlignment="Top" Width="155" Click="btn_ShowContent_Click"/>
 
         <!--<TabControl x:Name="tabCtrl_MidiContent" HorizontalAlignment="Left" Height="227" Margin="10,59,0,0" VerticalAlignment="Top" Width="498" ItemsSource="{Binding}" Grid.ColumnSpan="2">
             <TabControl.ItemContainerStyle>
@@ -46,8 +56,8 @@
         </TabControl>
         -->
         <TextBox Name="Displayer" TextWrapping="Wrap" AcceptsReturn="True" Margin="10,81,575,31.5" KeyUp="Displayer_KeyUp" KeyDown="Displayer_KeyDown"  TextChanged="lilypondTextBox_TextChanged" Grid.RowSpan="2"/>
-        <Button x:Name="btnSave" Content="Save to lilypond" HorizontalAlignment="Left" Margin="568,11,0,0" VerticalAlignment="Top" Width="120" Click="btnSave_Click"/>
-        <TextBox x:Name="txtFilename" HorizontalAlignment="Left" Height="23" Margin="568,45,0,0" TextWrapping="Wrap" Text="Lilyfile" VerticalAlignment="Top" Width="216"/>
+        <Button x:Name="btnSave" Content="Save to lilypond" HorizontalAlignment="Left" Margin="568,27,0,0" VerticalAlignment="Top" Width="120" Click="btnSave_Click"/>
+        <TextBox x:Name="txtFilename" HorizontalAlignment="Left" Height="23" Margin="568,50,0,0" TextWrapping="Wrap" Text="Lilyfile" VerticalAlignment="Top" Width="216"/>
 
         <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,81,92,10.5" Width="712" HorizontalAlignment="Right" Background="#FFFCDF" Grid.ColumnSpan="2" Grid.RowSpan="2">
             <Grid Name="sheetGrid" Margin="0,0,0,0" >

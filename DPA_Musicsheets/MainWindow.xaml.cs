@@ -70,6 +70,8 @@ namespace DPA_Musicsheets
             sc = new Caretaker();
 
             InitChainOfResponsibility();
+
+
         }
 
         private void InitChainOfResponsibility()

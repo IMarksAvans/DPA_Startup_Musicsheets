@@ -43,6 +43,7 @@ namespace DPA_Musicsheets.SaversReaders
                 var t = sequence.ElementAt(i);
 
                 float notedurationdata = 0.0f;
+                float demaat = 1.0f;
 
                 foreach (var mevent in t.Iterator())
                 {
@@ -67,7 +68,7 @@ namespace DPA_Musicsheets.SaversReaders
                                 var ticks = mevent.AbsoluteTicks - note.StartTime;
                                 float x = SetNoteData(note,ticks,mevent);
                                 notedurationdata += 1 / x;
-                                if (notedurationdata >= 1.0f)
+                                if (notedurationdata >= demaat)
                                 {
                                     track = new OurTrack();
                                     Tracks.Add(track);
@@ -133,8 +134,10 @@ namespace DPA_Musicsheets.SaversReaders
                             if (Message.MetaType == MetaType.TimeSignature)
                             {
                                 byte[] bytes = Message.GetBytes();
-                                var Measure = bytes[0];
-                                var numofbeats = (int)Math.Pow(2, bytes[1]);
+                                float Measure = bytes[0];
+                                float numofbeats = (int)Math.Pow(2, bytes[1]);
+
+                                demaat = Measure / numofbeats;
 
                                 string value = Convert.ToString(Measure) + "," + Convert.ToString(numofbeats);
 

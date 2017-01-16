@@ -321,6 +321,11 @@ namespace DPA_Musicsheets
             Save();
         }
 
+        private void btnSaveToPdf_Click(object sender, RoutedEventArgs e)
+        {
+            SaveToPdf();
+        }
+
         private void btnInsertClef_Click(object sender, RoutedEventArgs e)
         {
             InsertClef();

@@ -20,6 +20,8 @@
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
                     <MenuItem Header="_Open" Click="btnOpen_Click"/>
+                    <MenuItem Header="_Save" Click="btnSave_Click"/>
+                    <MenuItem Header="_SaveToPdf" Click="btnSaveToPdf_Click"/>
                 </MenuItem>
                 <MenuItem Header="_Edit">
                     <MenuItem Header="_Restore Previous" Click="btnUndo_Click" />

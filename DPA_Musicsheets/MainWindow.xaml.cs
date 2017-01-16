@@ -321,6 +321,31 @@ namespace DPA_Musicsheets
             Save();
         }
 
+        private void btnInsertClef_Click(object sender, RoutedEventArgs e)
+        {
+            InsertClef();
+        }
+
+        private void btnInsertTempo_Click(object sender, RoutedEventArgs e)
+        {
+            InsertTempo();
+        }
+
+        private void btnTiming3_Click(object sender, RoutedEventArgs e)
+        {
+            InsertTime3();
+        }
+
+        private void btnTiming4_Click(object sender, RoutedEventArgs e)
+        {
+            InsertTime4();
+        }
+
+        private void btnTiming6_Click(object sender, RoutedEventArgs e)
+        {
+            InsertTime6();
+        }
+
         private string getTextFromLilypond()
         {
             w.SetSong(currentSong);

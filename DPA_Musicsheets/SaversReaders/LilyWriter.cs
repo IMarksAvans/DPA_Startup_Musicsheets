@@ -39,7 +39,10 @@ namespace DPA_Musicsheets.SaversReaders
                     l += "'";
                 }
                 if (t.Relative.ToString() != " ")
+                {
                     Lines.Add("\\relative " + t.Relative.ToString() + l);
+                    Lines.Add("{");
+                }
                 if (t.Pitch != "")
                     Lines.Add("\\clef " + t.Pitch);
                 if (t.Time != 0)
@@ -96,6 +99,7 @@ namespace DPA_Musicsheets.SaversReaders
 
                 Lines.Add(line);
             }
+            Lines.Add("}");
             this.lines = Lines.ToArray();
             return Lines.ToArray();
         }

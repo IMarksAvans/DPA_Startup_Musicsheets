@@ -39,6 +39,7 @@ namespace DPA_Musicsheets.Notes
             get;
             set;
         } = 0;
+        public int StartTime { get; internal set; }
 
         public Note()
         {

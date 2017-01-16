@@ -161,7 +161,7 @@ namespace DPA_Musicsheets
                     staff.AddMusicalSymbol(new Clef(ClefType.CClef, 0));
                 else if (track.Pitch.Contains("bass"))
                     staff.AddMusicalSymbol(new Clef(ClefType.FClef, 0));
-
+                
                 Note prevNote = null;
                 //staff.AddMusicalSymbol();
                 foreach (var note in track.Notes)

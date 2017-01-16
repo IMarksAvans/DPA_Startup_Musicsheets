@@ -141,7 +141,7 @@ namespace DPA_Musicsheets.SaversReaders
                             {
                                 // op een of andere manier hier de relative bepalen?
                             }
-                            else if (keycodesnotes.ContainsKey(keyCode) && (channelMessage.Data2 == 0 || channelMessage.Command == ChannelCommand.NoteOff))
+                            if (keycodesnotes.ContainsKey(keyCode) && (channelMessage.Data2 == 0 || channelMessage.Command == ChannelCommand.NoteOff))
                             {
                                 Notes.Note note = keycodesnotes[keyCode];
                                 keycodesnotes.Remove(keyCode);
@@ -161,11 +161,9 @@ namespace DPA_Musicsheets.SaversReaders
                                 Notes.Note n = null;
                                 if (mevent.DeltaTicks > 0)
                                 {
-                                    n = CreateRest(mevent,tpb,track.Time);// 
+                                    n = CreateRest(mevent, tpb, track.Time);// 
 
-                                    
                                     track.Notes.Add(n);
-
                                     float x = n.Duration;
                                     notedurationdata += 1 / x;
                                     if (notedurationdata >= demaat)
@@ -176,7 +174,7 @@ namespace DPA_Musicsheets.SaversReaders
                                         notedurationdata = 0.0f;
                                     }
                                 }
-                                else
+                                
                                 {
                                     n = CreateNote(channelMessage.Data1/*keyCode*/, mevent);
 
@@ -184,7 +182,6 @@ namespace DPA_Musicsheets.SaversReaders
                                     keycodesnotes.Add(keyCode, n);
                                 }
                             }
-
                            
                             
                             break;

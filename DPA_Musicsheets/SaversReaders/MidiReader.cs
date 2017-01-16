@@ -190,8 +190,12 @@ namespace DPA_Musicsheets.SaversReaders
                         noteLength *= 2;
                         note.Punt = true;
                     }
-                    
+
+
+
                     duration = noteLength;
+                    if (percentageOfWholeNote <= absoluteNoteLength / 2 * 1.5)
+                        duration /= 2;
 
                     note.Duration = noteLength;
 
@@ -290,7 +294,9 @@ namespace DPA_Musicsheets.SaversReaders
                 int octave = keycode / 12;
 
                 if (octave > 5 || octave < 5)
+                {
                     Note.Octave = octave;
+                }
 
                 Note.StartTime = mevent.AbsoluteTicks;
             }

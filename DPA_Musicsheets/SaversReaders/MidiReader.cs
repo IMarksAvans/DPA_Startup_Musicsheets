@@ -12,16 +12,67 @@ namespace DPA_Musicsheets.SaversReaders
     public class MidiReader : IReader
     {
         Dictionary<int, Notes.Note> keycodesnotes = new Dictionary<int, Notes.Note>();
-
+        Dictionary<int, float> demaatopticks = new Dictionary<int, float>();
+        Dictionary<int, double> tracktimeopticks = new Dictionary<int, double>();
         //DPA_Musicsheets.MidiReader reader;
         protected int tpb;
         public MidiReader()
         {
-            
-
             Tracks = new List<OurTrack>();
             //_tracks = new List<OurTrack>();
             Filename = "";
+        }
+
+        private void MergeControlTrack(Track controlTrack, IEnumerable<Track> tracks)
+        {
+            List<int> mergeEventIndexes = new List<int>();
+            List<int> eraseEventIndexes = new List<int>();
+            for (int i = 0; i < controlTrack.Iterator().Count(); i++)
+            {
+                var midiEvent = controlTrack.Iterator().ElementAt(i);
+
+                if (midiEvent.MidiMessage.MessageType == MessageType.Meta)
+                {
+                    var message = midiEvent.MidiMessage as MetaMessage;
+                    if (message.MetaType == MetaType.Tempo || message.MetaType == MetaType.TimeSignature)
+                    {
+                        mergeEventIndexes.Add(i);
+                        eraseEventIndexes.Add(i);
+                    }
+                    else if (message.MetaType == MetaType.TrackName)
+                    {
+                        eraseEventIndexes.Add(i);
+                    }
+                }
+            }
+
+            foreach (var eventIndex in mergeEventIndexes)
+            {
+                var midiEvent = controlTrack.Iterator().ElementAt(eventIndex);
+
+                foreach (var track in tracks)
+                    track.Insert(midiEvent.AbsoluteTicks, midiEvent.MidiMessage);
+            }
+
+            int offset = 0;
+            foreach (var eventIndex in eraseEventIndexes)
+                controlTrack.RemoveAt(eventIndex - offset++);
+        }
+
+        private bool IsControlTrack(Track track)
+        {
+            bool isit = !track.Iterator().Any(item =>
+            {
+                if (item.MidiMessage.MessageType == MessageType.Channel)
+                {
+                    var message = item.MidiMessage as ChannelMessage;
+                    if (message.Command == ChannelCommand.NoteOn || message.Command == ChannelCommand.NoteOff)
+                        return true;
+                }
+                return false;
+            });
+
+            return isit;
         }
 
         public Song Load(string Filename)
@@ -31,28 +82,53 @@ namespace DPA_Musicsheets.SaversReaders
             var sequence = new Sequence();
             sequence.Load(Filename);
 
-            
+            // Get sets of normal tracks and control tracks.
+            var normalTracks = sequence.Where(t => !IsControlTrack(t));
+            var controlTracks = sequence.Where(t => IsControlTrack(t));
+
+            // Merge the control tracks into the normal tracks.
+            foreach (var controlTrack in controlTracks)
+                MergeControlTrack(controlTrack, normalTracks);
 
             if (sequence.Count == 0)
                 return null;
-            OurTrack track = null;
 
+            OurTrack track = null;
             tpb = sequence.Division;
+
+            float notedurationdata = 0.0f;
+            float demaat = 1.0f;
             for (int i = 0; i < sequence.Count; i++)
             {
-                var t = sequence.ElementAt(i);
+                //var t = sequence[i];
 
-                float notedurationdata = 0.0f;
-                float demaat = 1.0f;
-
-                foreach (var mevent in t.Iterator())
+                foreach (var mevent in sequence[i].Iterator())
                 {
                     if (track == null)
                     {
                         track = new OurTrack();
                         Tracks.Add(track);
                         track.Notes = new List<Notes.Note>();
+
+                        // hax
+                        track.Octave = 6;
+                        track.Relative = 'c';
+                        track.Pitch = "treble";
                     }
+
+                    /*if (this.tracktimeopticks.ContainsKey(mevent.DeltaTicks))
+                    {
+                        track.Time = this.tracktimeopticks[mevent.DeltaTicks];
+                        tracktimeopticks.Remove(mevent.DeltaTicks);
+                    }
+
+                    if (this.demaatopticks.ContainsKey(mevent.DeltaTicks))
+                    {
+
+                        demaat = this.demaatopticks[mevent.DeltaTicks];
+                        this.demaatopticks.Remove(mevent.DeltaTicks);
+                    }*/
+
                     switch (mevent.MidiMessage.MessageType)
                     {
                         case MessageType.Channel:
@@ -61,12 +137,16 @@ namespace DPA_Musicsheets.SaversReaders
                             var command = channelMessage.Command;
                             int keyCode = channelMessage.Data1;
 
-                            if (keycodesnotes.ContainsKey(keyCode) && (channelMessage.Data2 == 0 || channelMessage.Command == ChannelCommand.NoteOff))
+                            if (command == ChannelCommand.Controller)
+                            {
+                                // op een of andere manier hier de relative bepalen?
+                            }
+                            else if (keycodesnotes.ContainsKey(keyCode) && (channelMessage.Data2 == 0 || channelMessage.Command == ChannelCommand.NoteOff))
                             {
                                 Notes.Note note = keycodesnotes[keyCode];
                                 keycodesnotes.Remove(keyCode);
                                 var ticks = mevent.AbsoluteTicks - note.StartTime;
-                                float x = SetNoteData(note,ticks,mevent);
+                                float x = SetNoteData(note, ticks, mevent);
                                 notedurationdata += 1 / x;
                                 if (notedurationdata >= demaat)
                                 {
@@ -81,48 +161,28 @@ namespace DPA_Musicsheets.SaversReaders
                                 Notes.Note n = null;
                                 if (mevent.DeltaTicks > 0)
                                 {
-                                    n = Notes.Note.create("r");
+                                    n = CreateRest(mevent,tpb,track.Time);// 
 
-                                    int octave = keyCode / 12;
+                                    
+                                    track.Notes.Add(n);
 
-                                    if (octave > 5 || octave < 5)
-                                        n.Octave = octave;
-
-                                    n.StartTime = mevent.AbsoluteTicks;
+                                    float x = n.Duration;
+                                    notedurationdata += 1 / x;
+                                    if (notedurationdata >= demaat)
+                                    {
+                                        track = new OurTrack();
+                                        Tracks.Add(track);
+                                        track.Notes = new List<Notes.Note>();
+                                        notedurationdata = 0.0f;
+                                    }
                                 }
                                 else
                                 {
                                     n = CreateNote(channelMessage.Data1/*keyCode*/, mevent);
-                                }
 
-
-                                if (n != null)
-                                {
                                     track.Notes.Add(n);
                                     keycodesnotes.Add(keyCode, n);
                                 }
-                                /*int data = channelMessage.Data1;
-                               if (channelMessage.Command == ChannelCommand.NoteOn)
-                                {
-                                    data = channelMessage.Data1;
-                                }
-                                else if (channelMessage.Command == ChannelCommand.NoteOff)
-                                {
-                                    data = channelMessage.Data2;
-                                }
-
-                                if (channelMessage.Data2 >= 0)
-                                {
-                                    var note = Notes.Note.create("r");
-                                    if (note != null)
-                                        track.Notes.Add(note);
-                                }
-                                //else
-
-
-                                var note = CreateNote(data, channelMessage.Command, mevent.AbsoluteTicks, mevent.DeltaTicks);
-                                if (note != null)
-                                    track.Notes.Add(note);*/
                             }
 
                            
@@ -168,6 +228,19 @@ namespace DPA_Musicsheets.SaversReaders
             //throw new NotImplementedException();
         }
 
+        private Note CreateRest(MidiEvent mevent, int tpb, double time)
+        {
+            var channelMessage = mevent.MidiMessage as ChannelMessage;
+            var n = Notes.Note.create("r");
+            int octave = channelMessage.Data1 / 12;
+            if (octave > 5 || octave < 5)
+                n.Octave = octave;
+
+            SetNoteData(n,mevent.DeltaTicks,mevent);
+
+            return n;
+        }
+
         private float SetNoteData(Note note, int ticks, MidiEvent mevent)
         {
             double percentageOfBeatNote = (double)ticks / tpb;
@@ -205,7 +278,14 @@ namespace DPA_Musicsheets.SaversReaders
                 }
             }
 
-            return duration;
+            if (noteDuration != -1 && note.getKey() == "r")
+            {
+
+                int convertDuration = (int)(1d / noteDuration);
+                note.Duration = convertDuration;
+            }
+
+           return duration;
             /*
             Note.Duration = 1536 / deltaTicks;
             if (Note.Duration % 2 == 1)
@@ -304,6 +384,7 @@ namespace DPA_Musicsheets.SaversReaders
             return Note;
         }
 
+        // deze klopt niet
         protected Notes.Note CreateNote(int data1, ChannelCommand command, int absoluteTicks, int deltaTicks)
         {
             Notes.Note Note = null;

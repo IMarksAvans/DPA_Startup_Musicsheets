@@ -66,7 +66,8 @@
             </TabControl.ContentTemplate>
         </TabControl>
         -->
-        <TextBox Name="Displayer" TextWrapping="Wrap" AcceptsReturn="True" Margin="10,81,575,31" KeyUp="Displayer_KeyUp" KeyDown="Displayer_KeyDown"  TextChanged="lilypondTextBox_TextChanged" Grid.RowSpan="2"/>
+        <TextBox SelectionBrush="Red" SelectionOpacity="0.5"
+         Foreground="Blue" CaretBrush="Blue" Name="Displayer" TextWrapping="Wrap" AcceptsReturn="True" Margin="10,81,575,31" KeyUp="Displayer_KeyUp" KeyDown="Displayer_KeyDown"  TextChanged="lilypondTextBox_TextChanged" Grid.RowSpan="2"/>
         <Button x:Name="btnSave" Content="Save to lilypond" HorizontalAlignment="Left" Margin="568,27,0,0" VerticalAlignment="Top" Width="120" Click="btnSave_Click"/>
         <TextBox x:Name="txtFilename" HorizontalAlignment="Left" Height="23" Margin="568,50,0,0" TextWrapping="Wrap" Text="Lilyfile" VerticalAlignment="Top" Width="216"/>
         <Button x:Name="btnUndo" Content="Undo" HorizontalAlignment="Left" Margin="433,78,0,0" VerticalAlignment="Top" Width="75" Click="btnUndo_Click" Grid.Row="1"/>

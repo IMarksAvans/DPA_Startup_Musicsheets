@@ -44,7 +44,7 @@ namespace DPA_Musicsheets.SaversReaders
         protected int tpb;
         private float nextmaat;
         private double nexttracktime;
-        private char prevNote = 'c';
+        //private char prevNote = 'c';
         public MidiReader()
         {
             Tracks = new List<OurTrack>();
@@ -182,7 +182,7 @@ namespace DPA_Musicsheets.SaversReaders
                                 {
                                     if (notedurationdata > demaat)
                                     {
-                                        prevNote.Punt = true;
+                                        prevNote.Punt = true;prevNote.Duration *= 2;
                                         track.Notes.Add(Notes.Note.create("~"));
                                     }
 
@@ -195,7 +195,7 @@ namespace DPA_Musicsheets.SaversReaders
                                         Notes.Note n = Notes.Note.create(prevNote.getKey());
                                         n.Duration = prevNote.Duration;
 
-                                        n.Duration *= 4;
+                                        n.Duration *= 2;
 
                                         z = 1.0f / n.Duration;
                                         track.Notes.Add(n);
@@ -438,8 +438,8 @@ namespace DPA_Musicsheets.SaversReaders
 
                 
                 Note.Octave = octave;
-                Note.Octave += OctaveOffset(prevNote,Note.getKey()[0]);
-                prevNote = Note.getKey()[0];
+                //Note.Octave += OctaveOffset(prevNote,Note.getKey()[0]);
+                //prevNote = Note.getKey()[0];
                 
 
                 Note.StartTime = mevent.AbsoluteTicks;

@@ -133,7 +133,7 @@ namespace DPA_Musicsheets
                 }
             }
 
-            
+            Displayer.Select(0,sb.ToString().Count());
 
             Displayer.Text = sb.ToString();
             //string[] lines = Displayer.Text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
@@ -175,6 +175,10 @@ namespace DPA_Musicsheets
             stackPanel.Children.Add(incipitViewer);
 
             int x = 0;
+            Notes.Note prevNote = null;
+            Note prevn = null;
+
+            Dictionary<Notes.Note, string> notekey = new Dictionary<Notes.Note, string>();
 
             foreach (var track in currentSong.Tracks)
             {
@@ -202,7 +206,7 @@ namespace DPA_Musicsheets
                 else if (track.Pitch.Contains("bass"))
                     incipitViewer.AddMusicalSymbol(new Clef(ClefType.FClef, 0));
                 
-                Note prevNote = null;
+                
                 //staff.AddMusicalSymbol();
                 foreach (var note in track.Notes)
                 {
@@ -220,6 +224,25 @@ namespace DPA_Musicsheets
                         var direction = (int)note.Duration >= 5 ? NoteStemDirection.Down : NoteStemDirection.Up;
                         var beam = new List<NoteBeamType>();
                         var tie = NoteTieType.None;
+                        if (note.getKey() == "~")
+                        {
+                            prevn.TieType = NoteTieType.Start;
+                            notekey.Add(prevNote,note.getKey());
+                        }
+
+                        foreach (Notes.Note keyn in notekey.Keys)
+                        {
+                            if (note.getKey() == keyn.getKey())
+                            {
+                                tie = NoteTieType.Stop;
+                                notekey.Remove(keyn);
+                                break;
+                            }
+                        }
+
+                        
+
+
                         /*if (note.Duration > 4)
                         {
                             if (prevNote != null && prevNote.BeamList.Contains(NoteBeamType.Start))
@@ -240,8 +263,10 @@ namespace DPA_Musicsheets
                         var n = new Note(key, alternation, octave, duration, direction, tie, beam); //{ NumberOfDots = dots }
                         n.CurrentTempo = track.Tempo;
                         n.NumberOfDots = dots;
+                        
                         incipitViewer.AddMusicalSymbol(n);
-                        prevNote = n;
+                        prevNote = note;
+                        prevn = n;
                     }
                     
                 }

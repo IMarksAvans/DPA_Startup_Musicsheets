@@ -1,6 +1,7 @@
 ﻿using DPA_Musicsheets.Command.SubCommands;
 using DPA_Musicsheets.CoR;
 using DPA_Musicsheets.Memento;
+using DPA_Musicsheets.States;
 using Microsoft.Win32;
 using PSAMControlLibrary;
 using PSAMWPFControlLibrary;
@@ -38,7 +39,7 @@ namespace DPA_Musicsheets
         // De OutputDevice is een midi device of het midikanaal van je PC.
         // Hierop gaan we audio streamen.
         // DeviceID 0 is je audio van je PC zelf.
-        private Timer GenerationTimer { get; set; }
+       // private Timer GenerationTimer { get; set; }
         private OutputDevice _outputDevice = new OutputDevice(0);
         //private List<String> Mementos = new List<String>();
         private IReader r;
@@ -48,14 +49,15 @@ namespace DPA_Musicsheets
         private Song currentSong;
         protected List<System.Windows.Input.Key> keyDownList = new List<System.Windows.Input.Key>();
         protected ChainOfResponsibility cor = new ChainOfResponsibility();
+        private BaseState state;
 
         public MainWindow()
         {
             InitializeComponent();
-            GenerationTimer = new Timer();
-            GenerationTimer.Interval = 1500;
-            GenerationTimer.AutoReset = false;
-            GenerationTimer.Elapsed += GenerationTimer_Elapsed;
+           // GenerationTimer = new Timer();
+            //GenerationTimer.Interval = 1500;
+            //GenerationTimer.AutoReset = false;
+            //GenerationTimer.Elapsed += GenerationTimer_Elapsed;
 
             this.MidiTracks = new ObservableCollection<MidiTrack>();
             DataContext = MidiTracks;
@@ -68,6 +70,8 @@ namespace DPA_Musicsheets
             oc = new Caretaker();
             nc = new Caretaker();
             sc = new Caretaker();
+
+            this.state = new TypeState(this);
 
             InitChainOfResponsibility();
 
@@ -106,24 +110,19 @@ namespace DPA_Musicsheets
             handler9.SetCommand(new SaveCommand(this));
         }
 
-        private void GenerationTimer_Elapsed(object sender, ElapsedEventArgs e)
+        /*private void GenerationTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             GenerationTimer.Stop();
             this.Dispatcher.Invoke(() =>
             {
-                oo.State = no.State;
-                oc.Mementos.Add(oo.CreateMemento());
-                no.State = Displayer.Text;
-                nc.Mementos.Add(no.CreateMemento());
-                string[] lines = Displayer.Text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
-                r = new SaversReaders.LilyReader();
-                currentSong = r.Load(lines);
-                FillPSAMViewer();
+                this.state.Handle();
             });
-        }
+        }*/
 
         private void lilypondTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            //this.state.
+
             StringBuilder sb = new StringBuilder();
             foreach (char c in Displayer.Text)
             {
@@ -133,19 +132,20 @@ namespace DPA_Musicsheets
                 }
             }
 
-            Displayer.Select(0,sb.ToString().Count());
+            //Displayer.Select(0,sb.ToString().Count());
 
             Displayer.Text = sb.ToString();
             //string[] lines = Displayer.Text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
             //currentSong = r.Load(lines);
-            ResetTimer();
+            this.handleState();
+            //ResetTimer();
         }
 
-        private void ResetTimer()
+        /*private void ResetTimer()
         {
             GenerationTimer.Stop();
             GenerationTimer.Start();
-        }
+        }*/
 
         private void FillPSAMViewer()
         {
@@ -380,11 +380,14 @@ namespace DPA_Musicsheets
 
         private void btnUndo_Click(object sender, RoutedEventArgs e)
         {
-            if(oc.Mementos.Count > 0)
-                oc.Mementos.RemoveAt(oc.Mementos.Count-1);
             if (oc.Mementos.Count > 0)
-                oo.SetMemento(oc.Mementos.ElementAt(oc.Mementos.Count - 1));
-            Displayer.Text = oo.State;
+            {
+                Displayer.Text = oc.Mementos.ElementAt(oc.Mementos.Count - 1).State;
+                oc.Mementos.RemoveAt(oc.Mementos.Count - 1);
+            }
+             //   if (oc.Mementos.Count > 0)
+               // oo.SetMemento(oc.Mementos.ElementAt(oc.Mementos.Count - 1));
+            
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -567,6 +570,35 @@ namespace DPA_Musicsheets
             Displayer.Text = Displayer.Text.Insert(selectionIndex, insertText);
             Displayer.SelectionStart = selectionIndex + insertText.Length;
             
+        }
+
+        
+
+        internal void Bookmark()
+        {
+            this.Dispatcher.Invoke(() => {
+
+                oo.State = no.State;
+                oc.Mementos.Add(oo.CreateMemento());
+                no.State = Displayer.Text;
+                nc.Mementos.Add(no.CreateMemento());
+                string[] lines = Displayer.Text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                r = new SaversReaders.LilyReader();
+                currentSong = r.Load(lines);
+                FillPSAMViewer();
+
+            });
+            
+        }
+
+        public void SetState(BaseState state)
+        {
+            this.state = state;
+        }
+
+        internal void handleState()
+        {
+            this.state.Handle();
         }
     }
 }

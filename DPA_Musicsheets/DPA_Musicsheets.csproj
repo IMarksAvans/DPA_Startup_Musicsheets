@@ -108,6 +108,10 @@
     <Compile Include="SaversReaders\LilyWriter.cs" />
     <Compile Include="SaversReaders\MidiReader.cs" />
     <Compile Include="Song.cs" />
+    <Compile Include="States\BaseState.cs" />
+    <Compile Include="States\SetBookmarksState.cs" />
+    <Compile Include="States\SmartHelpState.cs" />
+    <Compile Include="States\TypeState.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -82,44 +82,50 @@ namespace DPA_Musicsheets.SaversReaders
 
         private void AddToTrack(string line, OurTrack track)
         {
-            if (line.Contains("relative"))
+            try
             {
-                int oh = line.Count(x => x == '\'');
-                int ol = line.Count(x => x == ',');
-                track.Octave += (oh - ol);
-                track.Relative = line.Substring(line.IndexOf("relative") + 9, 1)[0];
-            }
-            else if (line.Contains("clef"))
-            {
-                track.Pitch = line.Substring(line.IndexOf("clef") + 5);
-            }
-            else if (line.Contains("time"))
-            {
-                string time = line.Substring(line.IndexOf("time") + 5);
+                if (line.Contains("relative"))
+                {
+                    int oh = line.Count(x => x == '\'');
+                    int ol = line.Count(x => x == ',');
+                    track.Octave += (oh - ol);
+                    track.Relative = line.Substring(line.IndexOf("relative") + 9, 1)[0];
+                }
+                else if (line.Contains("clef"))
+                {
+                    track.Pitch = line.Substring(line.IndexOf("clef") + 5);
+                }
+                else if (line.Contains("time"))
+                {
+                    string time = line.Substring(line.IndexOf("time") + 5);
 
-                var times = time.Split('/');
+                    var times = time.Split('/');
 
-                track.Time = Convert.ToDouble(times[0] + ',' + times[1]);
-                //times[0];
-                //times[1];
+                    track.Time = Convert.ToDouble(times[0] + ',' + times[1]);
+                    //times[0];
+                    //times[1];
 
-            }
-            else if (line.Contains("tempo"))
-            {
-                string M = line.Substring(line.IndexOf("tempo") + 6, 1);
-                track.Metronome = Convert.ToInt32(M);
+                }
+                else if (line.Contains("tempo"))
+                {
+                    string M = line.Substring(line.IndexOf("tempo") + 6, 1);
+                    track.Metronome = Convert.ToInt32(M);
 
-                string BPM = line.Substring(line.IndexOf("=") + 1);
-                track.Tempo = Convert.ToInt32(BPM);
+                    string BPM = line.Substring(line.IndexOf("=") + 1);
+                    track.Tempo = Convert.ToInt32(BPM);
+                }
+                else if (line.Contains("repeat"))
+                {
+                    track.InRepeat = true;
+                }
+                else if (line.Contains("alternative"))
+                {
+                    track.InAlternative = true;
+                    track.InRepeat = false;
+                }
             }
-            else if (line.Contains("repeat"))
+            catch
             {
-                track.InRepeat = true;
-            }
-            else if (line.Contains("alternative"))
-            {
-                track.InAlternative = true;
-                track.InRepeat = false;
             }
 
         }
@@ -183,36 +189,44 @@ namespace DPA_Musicsheets.SaversReaders
                 Char c = line[i];
                 if (char.IsLetter(c))
                 {
-                    Note n = Note.create(c.ToString());
-                    i++;
-                    while (i < line.Length && (!char.IsWhiteSpace(line[i])))
+                    try
                     {
-                        c = line[i];
-                        if (Char.IsNumber(c))
-                            n.Duration = (n.Duration == 0) ? Int32.Parse(c.ToString()) : int.Parse(n.Duration.ToString() + c.ToString());
-                        else
+
+                        Note n = Note.create(c.ToString());
+                        i++;
+                        while (i < line.Length && (!char.IsWhiteSpace(line[i])))
                         {
-                            if (c.Equals('\''))
-                                n.IncreaseOctave();
-                            else if (c.Equals(','))
-                                n.DecreaseOctave();
-                            else if (c.Equals('.'))
-                                n.Punt = true;
-                            else if (c.Equals('e') && line[i + 1].Equals('s'))
-                                n.IsFlat = true;
-                            else if (c.Equals('i') && line[i + 1].Equals('s'))
-                                n.IsSharp = true;
-                            else if (char.IsLetter(c) && !c.Equals('s'))
+                            c = line[i];
+                            if (Char.IsNumber(c))
+                                n.Duration = (n.Duration == 0) ? Int32.Parse(c.ToString()) : int.Parse(n.Duration.ToString() + c.ToString());
+                            else
                             {
-                                i--;
-                                break;
+                                if (c.Equals('\''))
+                                    n.IncreaseOctave();
+                                else if (c.Equals(','))
+                                    n.DecreaseOctave();
+                                else if (c.Equals('.'))
+                                    n.Punt = true;
+                                else if (c.Equals('e') && line[i + 1].Equals('s'))
+                                    n.IsFlat = true;
+                                else if (c.Equals('i') && line[i + 1].Equals('s'))
+                                    n.IsSharp = true;
+                                else if (char.IsLetter(c) && !c.Equals('s'))
+                                {
+                                    i--;
+                                    break;
+                                }
+
                             }
 
+                            i++;
                         }
-
-                        i++;
+                        noteList.Add(n);
                     }
-                    noteList.Add(n);
+                    catch
+                    {
+                    }
+                    
                 }
                 else if (c.Equals('~'))
                 {

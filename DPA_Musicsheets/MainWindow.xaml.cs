@@ -133,6 +133,8 @@ namespace DPA_Musicsheets
                 }
             }
 
+            
+
             Displayer.Text = sb.ToString();
             //string[] lines = Displayer.Text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
             //currentSong = r.Load(lines);
@@ -218,7 +220,7 @@ namespace DPA_Musicsheets
                         var direction = (int)note.Duration >= 5 ? NoteStemDirection.Down : NoteStemDirection.Up;
                         var beam = new List<NoteBeamType>();
                         var tie = NoteTieType.None;
-                        if (note.Duration > 4)
+                        /*if (note.Duration > 4)
                         {
                             if (prevNote != null && prevNote.BeamList.Contains(NoteBeamType.Start))
                             {
@@ -232,7 +234,8 @@ namespace DPA_Musicsheets
                         }
                         else
                          beam.Add(NoteBeamType.Start);
-
+                         */
+                        beam.Add(NoteBeamType.Start);
                         var dots = note.Punt ? 1 : 0;
                         var n = new Note(key, alternation, octave, duration, direction, tie, beam); //{ NumberOfDots = dots }
                         n.CurrentTempo = track.Tempo;

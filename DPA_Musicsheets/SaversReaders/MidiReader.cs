@@ -113,7 +113,6 @@ namespace DPA_Musicsheets.SaversReaders
                         // hax
                         track.Octave = 6;
                         track.Relative = 'c';
-                        track.Pitch = "treble";
                     }
 
                     /*if (this.tracktimeopticks.ContainsKey(mevent.DeltaTicks))
@@ -139,6 +138,12 @@ namespace DPA_Musicsheets.SaversReaders
 
                             if (command == ChannelCommand.Controller)
                             {
+                                if (channelMessage.Data1 == 7)
+                                    track.Pitch = "treble";
+                                else if (channelMessage.Data1 == 0)
+                                    track.Pitch = "alto";
+                                else if (channelMessage.Data1 == 5)
+                                    track.Pitch = "bass";
                                 // op een of andere manier hier de relative bepalen?
                             }
                             if (keycodesnotes.ContainsKey(keyCode) && (channelMessage.Data2 == 0 || channelMessage.Command == ChannelCommand.NoteOff))

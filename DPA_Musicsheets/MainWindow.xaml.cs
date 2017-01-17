@@ -166,6 +166,7 @@ namespace DPA_Musicsheets
 
             Thickness margin = incipitViewer.Margin;
             margin.Top += 25;
+            margin.Bottom += 25;
             incipitViewer.Margin = margin;
             incipitViewer.Width = tabControl.Width;
 
@@ -183,6 +184,7 @@ namespace DPA_Musicsheets
 
                     margin = incipitViewer.Margin;
                     margin.Top += 25;
+                    margin.Bottom += 25;
                     incipitViewer.Margin = margin;
                     incipitViewer.Width = tabControl.Width;
 
@@ -248,6 +250,7 @@ namespace DPA_Musicsheets
             TabItem tab = new TabItem();
             tab.Content = scroll;
             tabControl.Items.Add(tab);
+            tabControl.SelectedIndex = 0;
             /*  
                 The first argument of Note constructor is a string representing one of the following names of steps: A, B, C, D, E, F, G. 
                 The second argument is number of sharps (positive number) or flats (negative number) where 0 means no alteration. 

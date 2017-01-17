@@ -193,7 +193,7 @@ namespace DPA_Musicsheets
                     x = 0;
                 }
 
-                if (track.Pitch.Contains("treble"))
+                if (track.Pitch.Contains("treble") || track.Pitch.Contains(""))
                     incipitViewer.AddMusicalSymbol(new Clef(ClefType.GClef, 0));
                 else if (track.Pitch.Contains("alto") || track.Pitch.Contains("tenor"))
                     incipitViewer.AddMusicalSymbol(new Clef(ClefType.CClef, 0));

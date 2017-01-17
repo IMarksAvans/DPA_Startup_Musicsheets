@@ -69,13 +69,7 @@
         <TextBox Name="Displayer" TextWrapping="Wrap" AcceptsReturn="True" Margin="10,81,575,31.5" KeyUp="Displayer_KeyUp" KeyDown="Displayer_KeyDown"  TextChanged="lilypondTextBox_TextChanged" Grid.RowSpan="2"/>
         <Button x:Name="btnSave" Content="Save to lilypond" HorizontalAlignment="Left" Margin="568,27,0,0" VerticalAlignment="Top" Width="120" Click="btnSave_Click"/>
         <TextBox x:Name="txtFilename" HorizontalAlignment="Left" Height="23" Margin="568,50,0,0" TextWrapping="Wrap" Text="Lilyfile" VerticalAlignment="Top" Width="216"/>
-
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,81,92,10.5" Width="712" HorizontalAlignment="Right" Background="#FFFCDF" Grid.ColumnSpan="2" Grid.RowSpan="2">
-            <Grid Name="sheetGrid" Margin="0,0,0,0" >
-                <PSAMWPFControl:IncipitViewerWPF Width="600" Margin="10,10,10,98" x:Name="staff" >
-                </PSAMWPFControl:IncipitViewerWPF>
-            </Grid>
-        </ScrollViewer>
         <Button x:Name="btnUndo" Content="Undo" HorizontalAlignment="Left" Margin="433,78,0,0" VerticalAlignment="Top" Width="75" Click="btnUndo_Click" Grid.Row="1"/>
+        <TabControl Name="tabControl" HorizontalAlignment="Left" Height="357" Margin="568,81,0,0" VerticalAlignment="Top" Width="474" Grid.RowSpan="2"/>
     </Grid>
 </Window>

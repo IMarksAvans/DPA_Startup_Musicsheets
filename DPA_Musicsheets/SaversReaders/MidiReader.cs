@@ -230,8 +230,8 @@ namespace DPA_Musicsheets.SaversReaders
             var channelMessage = mevent.MidiMessage as ChannelMessage;
             var n = Notes.Note.create("r");
             int octave = channelMessage.Data1 / 12;
-            if (octave > 5 || octave < 5)
-                n.Octave = octave;
+ 
+            n.Octave = octave;
 
             SetNoteData(n,mevent.DeltaTicks,mevent);
 
@@ -283,14 +283,6 @@ namespace DPA_Musicsheets.SaversReaders
             }
 
            return duration;
-            /*
-            Note.Duration = 1536 / deltaTicks;
-            if (Note.Duration % 2 == 1)
-                Note.Punt = true;
-            if (Note.Duration == 5 && Note.Punt)
-                Note.Duration = 8;
-            Note.TicksPosition = absoluteTicks;
-            Note.NotePos = data1;*/
         }
 
         public void LoadReserved()
@@ -370,10 +362,9 @@ namespace DPA_Musicsheets.SaversReaders
 
                 int octave = keycode / 12;
 
-                if (octave > 5 || octave < 5)
-                {
-                    Note.Octave = octave;
-                }
+                
+                Note.Octave = octave;
+                
 
                 Note.StartTime = mevent.AbsoluteTicks;
             }
@@ -382,7 +373,7 @@ namespace DPA_Musicsheets.SaversReaders
         }
 
         // deze klopt niet
-        protected Notes.Note CreateNote(int data1, ChannelCommand command, int absoluteTicks, int deltaTicks)
+        /*protected Notes.Note CreateNote(int data1, ChannelCommand command, int absoluteTicks, int deltaTicks)
         {
             Notes.Note Note = null;
 
@@ -466,7 +457,7 @@ namespace DPA_Musicsheets.SaversReaders
                 Note.NotePos = data1;
             }
             return Note;
-        }
+        }*/
 
         public Song Load(string[] lines)
         {
